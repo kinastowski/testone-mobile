@@ -1,0 +1,26 @@
+type UserTask @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  result: String
+  taskID: ID! @index(name: "byTask")
+  userID: ID! @index(name: "byUser")
+  stats: AWSJSON
+  comment: String
+}
+
+type Task @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  title: String
+  description: String
+  UserTasks: [UserTask] @hasMany(indexName: "byTask", fields: ["id"])
+  details: AWSJSON
+  image: String
+  constrains: AWSJSON
+  stats: AWSJSON
+}
+
+type User @model @auth(rules: [{allow: public}, {allow: private}]) {
+  id: ID!
+  profile: String
+  UserTasks: [UserTask] @hasMany(indexName: "byUser", fields: ["id"])
+}
+ 
