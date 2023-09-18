@@ -20,7 +20,7 @@ type Task @model @auth(rules: [{allow: public}, {allow: private}]) {
 
 type User @model @auth(rules: [{allow: public}, {allow: private}]) {
   id: ID!
-  profile: String
+  profile: AWSJSON
   UserTasks: [UserTask] @hasMany(indexName: "byUser", fields: ["id"])
 }
  

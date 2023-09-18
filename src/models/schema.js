@@ -246,7 +246,7 @@ export const schema = {
                 "profile": {
                     "name": "profile",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -321,5 +321,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "b58b0936aa11fbaf63740f2e50628687"
+    "version": "d2a81c38f7498a7f5b60e28f16cbbe57"
 };

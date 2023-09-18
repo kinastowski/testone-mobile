@@ -7,6 +7,7 @@ import {
   Circle,
   ScrollView,
   Text,
+  TextArea,
 } from "tamagui";
 import { ChevronLeft, Timer } from "@tamagui/lucide-icons";
 import React, { useState, useEffect } from "react";
@@ -27,15 +28,14 @@ import CountdownComponent from "../../components/Countdown";
 const { useParam } = createParam<{ id: string }>();
 interface Item {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  constrains: {
-    gender: string;
-    age: number;
-    location: string;
-  };
-  details: Record<string, unknown>;
+  comment: string;
+  stats: string;
+  _version: number;
+  _lastChangedAt: number;
+  _deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+  result: string;
 }
 
 interface ItemDetailProps {
@@ -50,12 +50,14 @@ function ItemDetail({ id }: ItemDetailProps) {
   const [item, setItem] = useState<Item>();
 
   const subscription = DataStore.observe(UserTask, id).subscribe((msg) => {
-    console.log(msg.model, msg.opType, msg.element);
+    // console.log(msg.model, msg.opType, msg.element);
+    setItem(msg.element);
   });
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await DataStore.query(UserTask, id);
+
       setItem(result);
     };
 
@@ -112,7 +114,7 @@ function ItemDetail({ id }: ItemDetailProps) {
     } catch (error) {
       console.log("Error uploading file: ", error);
     }
-
+    setRecording(undefined);
     console.log("Recording stopped and stored at", uri);
   }
 
@@ -139,7 +141,12 @@ function ItemDetail({ id }: ItemDetailProps) {
             size="$8"
             // icon={PlayCircle}
           >
-            {recording ? "Stop Recording" : "Start Recording"}
+            <Circle
+              size={20}
+              backgroundColor={recording ? "red" : "green"}
+              elevation="$4"
+            />
+            <Text>{recording ? "Stop Recording" : "Start Recording"}</Text>
           </Button>
 
           {showCountDown && (
@@ -152,7 +159,14 @@ function ItemDetail({ id }: ItemDetailProps) {
             />
           )}
 
-          {/* <Paragraph ta="center" fow="800">{`Item ID: ${id}`}</Paragraph> */}
+          <TextArea
+            placeholder="Enter your details..."
+            height="50%"
+            width="80%"
+            mx="$4"
+          >
+            {item?.comment}
+          </TextArea>
 
           <Button {...linkProps} icon={ChevronLeft}>
             Go Home

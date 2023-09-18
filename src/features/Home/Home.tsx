@@ -97,6 +97,7 @@ export function Home() {
   const [active, setActive] = useState({});
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
+  const { push } = useRouter();
 
   const showDetails = (item: Item) => {
     setActive(item);
@@ -172,6 +173,10 @@ export function Home() {
   //   },
   // ];
 
+  const onPress = () => {
+    push("/survey/1");
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -205,9 +210,9 @@ export function Home() {
 
 function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
   const [position, setPosition] = useState(0);
-  const linkProps = useLink({
-    href: "/item/" + item.id,
-  });
+  // const linkProps = useLink({
+  //   href: "/item/" + item.id,
+  // });
   const { push } = useRouter();
   const [showCountDown, setShowCountDown] = useState<boolean>(false);
 
@@ -215,7 +220,7 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
     setShowCountDown(!showCountDown);
     setOpen(false);
 
-    push("/item/" + item.id);
+    push("/survey/" + item.id);
   };
 
   return (
