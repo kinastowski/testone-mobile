@@ -1,4 +1,4 @@
-import { Slider as TamaguiSlider } from "tamagui";
+import { Slider as TamaguiSlider, XStack } from "tamagui";
 
 interface SliderProps {
   name: string;
@@ -22,3 +22,6 @@ const Slider = (props: SliderProps) => (
 );
 
 export default Slider;
+
+//## $util.qr($ctx.stash.defaultValues.put("id", $util.autoId()))
+//$util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))

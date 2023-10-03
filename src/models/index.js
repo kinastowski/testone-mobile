@@ -4,10 +4,10 @@ import { schema } from './schema';
 
 
 
-const { UserTask, Task, User } = initSchema(schema);
+const { Task, UserTask, User } = initSchema(schema);
 
 export {
-  UserTask,
   Task,
+  UserTask,
   User
 };

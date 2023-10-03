@@ -3,17 +3,17 @@ import { Auth } from "aws-amplify";
 import { SafeAreaView, StyleSheet } from "react-native";
 import Profile from "../../components/Profile";
 interface ItemDetailProps {
-  id: string;
+  profile: string;
 }
 
-function ItemDetail({ id }: ItemDetailProps) {
+function ItemDetail({ profile }: ItemDetailProps) {
   return (
     <SafeAreaView
       style={{
         flex: 1,
       }}
     >
-      <Profile userID={id} />
+      <Profile profileId={profile} />
     </SafeAreaView>
   );
 }
@@ -31,8 +31,9 @@ export function ProfileScreen() {
   }, []);
 
   if (!user) return null;
+  // console.log(user);
 
-  return <ItemDetail id={user.username} />;
+  return <ItemDetail profile={user.attributes.profile} />;
 }
 
 const styles = StyleSheet.create({

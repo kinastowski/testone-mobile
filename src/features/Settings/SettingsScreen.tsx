@@ -41,7 +41,7 @@ interface Item {
   _deleted: boolean;
   createdAt: string;
   updatedAt: string;
-  result: string;
+  result: number;
 }
 
 interface ItemDetailProps {

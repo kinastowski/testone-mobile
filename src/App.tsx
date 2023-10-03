@@ -21,30 +21,35 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { createStackNavigator } from "@react-navigation/stack";
-import { Home } from "./features/Home";
+import { HomeScreen } from "./features/home";
 import { Logo } from "./components/Logo";
 import config from "../tamagui";
-import { SurveyScreen } from "./features/Survey";
-import { CommentScreen } from "./features/Comment";
-import { SettingsScreen } from "./features/Settings";
-import { ProfileScreen } from "./features/Profile";
+import { SurveyScreen } from "./features/survey";
+import { CommentScreen } from "./features/comment";
+import { MyScreen } from "./features/my";
+import { ProfileScreen } from "./features/profile";
+import { ResultScreen } from "./features/result";
 import { useFonts } from "expo-font";
 import { tamaguiFonts } from "../tamagui/tamaguiFonts.native";
 import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import { Button } from "tamagui";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  `Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.`,
+]);
 
 import {
   User as ProfileIcon,
   CheckCircle as HomeIcon,
-  Settings as SettingsIcon,
+  Settings as MyIcon,
 } from "@tamagui/lucide-icons";
 
 import "@azure/core-asynciterator-polyfill";
 
 import awsExports from "./aws-exports";
-// import { CommentScreen } from "./features/Comment";
-import Survey from "./components/Survey";
+
 Amplify.configure(awsExports);
 
 const MainStack = createStackNavigator();
@@ -81,31 +86,43 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        tabBarActiveTintColor: "tomato",
+        tabBarInactiveTintColor: "gray",
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
+          if (route.name === "Testy") {
             return <HomeIcon size={size} color={color} />;
-          } else if (route.name === "Settings") {
-            return <SettingsIcon size={size} color={color} />;
-          } else if (route.name === "Profile") {
+          } else if (route.name === "Moje") {
+            return <MyIcon size={size} color={color} />;
+          } else if (route.name === "Profil") {
             // You can return any component that you like here!
             return <ProfileIcon size={size} color={color} />;
           }
         },
       })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-      }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="Testy"
+        component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="Moje"
+        component={MyScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Profil"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }
@@ -161,6 +178,7 @@ const linking = {
       Home: "",
       Survey: "survey/:id",
       Comment: "comment/:id",
+      Result: "result/:id",
     },
   },
 };
@@ -187,8 +205,21 @@ const InnerApp = () => {
               component={TabNavigator}
               options={{ headerShown: false }}
             />
-            <MainStack.Screen name="Survey" component={SurveyScreen} />
-            <MainStack.Screen name="Comment" component={CommentScreen} />
+            <MainStack.Screen
+              name="Survey"
+              component={SurveyScreen}
+              options={{ headerShown: false }}
+            />
+            <MainStack.Screen
+              name="Result"
+              component={ResultScreen}
+              // options={{ headerShown: false }}
+            />
+            <MainStack.Screen
+              name="Comment"
+              component={CommentScreen}
+              options={{ headerShown: false }}
+            />
           </MainStack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
@@ -214,7 +245,9 @@ const App = () => {
             disableInjectCSS
             defaultTheme={theme}
           >
+            {/* <TaskProvider> */}
             <InnerApp />
+            {/* </TaskProvider> */}
           </TamaguiProvider>
         </SolitoImageProvider>
       </Authenticator>

@@ -19,8 +19,8 @@ import { DataStore } from "aws-amplify";
 import { UserTask, Task } from "../../models";
 
 import { SafeAreaView } from "react-native";
+import { useTaskContext } from "../../context/TaskContext";
 
-import { Activity, Airplay } from "@tamagui/lucide-icons";
 import TimerComponent from "../../components/Timer";
 import Survey from "../../components/Survey";
 import { useRouter } from "solito/router";
@@ -45,16 +45,7 @@ interface ItemDetailProps {
 
 function ItemDetail({ id }: ItemDetailProps) {
   const linkProps = useLink({ href: "/" });
-  const [recording, setRecording] = React.useState<Audio.Recording>();
-  const [userTaskId, setUserTaskId] = useState<string>();
   const { push } = useRouter();
-
-  //  const goTo = () => {
-  //    setShowCountDown(!showCountDown);
-  //    setOpen(false);
-
-  //    push("/item/" + item.id);
-  //  };
 
   const [item, setItem] = useState<Item>();
 
@@ -69,21 +60,24 @@ function ItemDetail({ id }: ItemDetailProps) {
 
   if (!item) return null;
 
-  async function selectOption(option: { value: string; type: string }) {
-    console.log("Selected option: ", option);
+  async function selectOption(option: {
+    value: string;
+    type: string;
+    result: number;
+  }) {
+    // console.log("Selected option: ", option);
+    const owner = (await Auth.currentAuthenticatedUser()).username;
+
     const res = await DataStore.save(
       new UserTask({
-        result: option.value,
-        taskID: id,
-        userID: (await Auth.currentAuthenticatedUser()).username,
+        result: option.result,
+        taskId: id,
+        // owner: `${owner}::${owner}`,
       })
     );
-    // setUserTaskId(res.id);
-    push("/comment/" + res.id);
-    // console.log("Saved result: ", res.id);
-  }
 
-  console.log("Item: ", item);
+    push("/comment/" + res.id);
+  }
 
   return (
     <SafeAreaView

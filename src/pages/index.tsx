@@ -1,5 +1,5 @@
-import {Home} from '../features/Home';
-import {Layout} from '../components';
+import { Home } from "../features/home";
+import { Layout } from "../components";
 
 const HomePage = () => (
   <Layout>

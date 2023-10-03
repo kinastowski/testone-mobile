@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Text, TextArea, ScrollView, Button } from "tamagui";
+import {
+  Text,
+  TextArea,
+  ScrollView,
+  Button,
+  XStack,
+  YStack,
+  ZStack,
+  Label,
+} from "tamagui";
 import { DataStore } from "@aws-amplify/datastore";
 import { User } from "../models";
 import Slider from "./Slider";
+import Radio from "./Radio";
+import { Auth } from "aws-amplify";
 
 type ProfileData = {
   age: number;
@@ -19,45 +30,60 @@ type UserData = {
 };
 
 interface ProfileProps {
-  userID: string;
+  profileId: string;
 }
 
-const Profile: React.FC<ProfileProps> = ({ userID }) => {
-  const [profile, setProfile] = useState<ProfileData>({});
+const Profile: React.FC<ProfileProps> = ({ profileId }) => {
+  const [profile, setProfile] = useState<ProfileData>();
+  const [hasProfile, setHasProfile] = useState<boolean>(false);
 
   const saveProfile = async () => {
     try {
-      const original = await DataStore.query(User, userID);
-      console.log("original", original);
-      console.log("profile", userID);
-
-      if (original) {
+      if (hasProfile) {
+        const original = await DataStore.query(User, profileId);
         await DataStore.save(
           User.copyOf(original, (updated) => {
             updated.profile = JSON.stringify(profile);
           })
         );
       } else {
-        await DataStore.save(
+        const result = await DataStore.save(
           new User({
-            id: userID,
             profile: JSON.stringify(profile),
           })
         );
+        console.log(result);
+        setHasProfile(true);
+        await updateUserAttributes(result.id);
+        setProfile(result.profile);
       }
 
-      alert("Profile information saved!");
+      // alert("Profile information saved!");
     } catch (error) {
       console.error("Error saving user profile:", error);
     }
   };
 
   const updateProfile = async (name: string, value: string | number) => {
+    // console.log("updateProfile", name, value);
     setProfile({
       ...profile,
       [name]: value,
     });
+    // await saveProfile();
   };
+
+  async function updateUserAttributes(profileId: string) {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const result = await Auth.updateUserAttributes(user, {
+        profile: profileId,
+      });
+      console.log(result); // SUCCESS
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const setAge = (value: string) => updateProfile("age", value);
   const setGender = (value: string) => updateProfile("gender", value);
@@ -73,11 +99,12 @@ const Profile: React.FC<ProfileProps> = ({ userID }) => {
       try {
         const userData: UserData | undefined = await DataStore.query(
           User,
-          userID
+          profileId
         );
         if (userData && userData.profile) {
-          const profile: ProfileData = JSON.parse(userData.profile);
-          setProfile(profile);
+          setProfile(userData.profile);
+          setHasProfile(true);
+          console.log("profile", profile, userData.profile);
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -85,58 +112,117 @@ const Profile: React.FC<ProfileProps> = ({ userID }) => {
     };
 
     fetchUserProfile();
-  }, [userID]);
+  }, [profileId]);
+
+  function getProfit() {
+    if (!profile) return 0;
+    if (profile.income === 1000) return "< 1000";
+    if (profile.income === 20000) return "> 20000";
+    return profile.income;
+  }
+
+  function getPopulation() {
+    if (!profile) return "-";
+    return {
+      "1": "<100 tyś",
+      "2": "100-500 tyś",
+      "3": ">500 tyś",
+    }[profile.cityPopulation];
+  }
 
   return (
-    <ScrollView style={{ padding: 20 }}>
-      <Text>Age:</Text>
+    <ScrollView p="$6" contentContainerStyle={{ flexGrow: 1 }}>
+      <XStack>
+        <Label width={60} htmlFor="name">
+          Wiek: {profile && profile.age}
+        </Label>
+      </XStack>
       <Slider
-        defaultValue={[profile.age || 18]}
+        value={profile && profile.age}
         onValueChange={setAge}
         min={18}
         max={100}
         step={1}
       />
 
-      <Text>Gender:</Text>
-      <TextArea
-        value={profile.gender}
-        onChangeText={setGender}
-        placeholder="Enter gender"
+      <XStack pt="$8">
+        <Label width={60} htmlFor="name">
+          Płeć:
+        </Label>
+      </XStack>
+      <Radio
+        value={profile && profile.gender}
+        onValueChange={setGender}
+        name="gender"
+        items={[
+          { value: "female", label: "kobieta" },
+          { value: "male", label: "mężczyzna" },
+          { value: "other", label: "inna" },
+        ]}
       />
 
-      <Text>Level of Education:</Text>
-      <TextArea
-        value={profile.education}
-        onChangeText={setEducation}
-        placeholder="Enter level of education"
+      <XStack pt="$8">
+        <Label width={200} htmlFor="name">
+          Wykształecenie
+        </Label>
+      </XStack>
+      <Radio
+        value={profile && profile.education}
+        onValueChange={setEducation}
+        name="education"
+        items={[
+          { value: "1", label: "podstawowe" },
+          { value: "2", label: "średnie" },
+          { value: "3", label: "wyższe" },
+        ]}
       />
 
-      <Text>Monthly Income:</Text>
-      <TextArea
-        value={profile.income}
-        onChangeText={setIncome}
-        placeholder="Enter monthly income"
-        keyboardType="numeric"
+      <XStack pt="$8" pb="$4">
+        <Label width={300} htmlFor="name">
+          Przybliżony mie. przychód: {getProfit()}
+        </Label>
+      </XStack>
+      <Slider
+        value={profile && profile.income}
+        onValueChange={setIncome}
+        min={1000}
+        max={20000}
+        step={1000}
       />
 
-      <Text>Number of People in Household:</Text>
-      <TextArea
-        value={profile.householdCount}
-        onChangeText={setHouseholdCount}
-        placeholder="Enter number of people in household"
-        keyboardType="numeric"
+      <XStack pt="$8" pb="$4">
+        <Label width={300} htmlFor="name">
+          Liczba osob w gosp. domowym: {profile && profile.householdCount}
+        </Label>
+      </XStack>
+      <Slider
+        value={profile && profile.householdCount}
+        onValueChange={setHouseholdCount}
+        min={1}
+        max={10}
+        step={1}
       />
 
-      <Text>Number of People in City:</Text>
-      <TextArea
-        value={profile.cityPopulation}
-        onChangeText={setCityPopulation}
-        placeholder="Enter city population"
-        keyboardType="numeric"
+      <XStack pt="$8">
+        <Label width={400} htmlFor="name">
+          Liczba osób w mieście: {getPopulation()}
+        </Label>
+      </XStack>
+      <Radio
+        value={profile && profile.cityPopulation}
+        onValueChange={setCityPopulation}
+        name="cityPopulation"
+        items={[
+          { value: "1", label: "<100 tyś" },
+          { value: "2", label: "100-500 tyś" },
+          { value: "3", label: ">500 tyś" },
+        ]}
       />
-
-      <Button onPress={saveProfile}>Zapisz</Button>
+      <XStack py="$8" alignSelf="center">
+        <Button onPress={saveProfile} theme="active" size="$6">
+          Zapisz
+        </Button>
+      </XStack>
     </ScrollView>
   );
 };

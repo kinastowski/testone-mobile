@@ -1,7 +1,7 @@
-import {SolitoImage} from 'solito/image';
-import {useLink} from 'solito/link';
-import {Button, useMedia, useThemeName} from 'tamagui';
-import {tokens} from '@tamagui/themes';
+import { SolitoImage } from "solito/image";
+import { useLink } from "solito/link";
+import { Button, useMedia, useThemeName } from "tamagui";
+import { tokens } from "@tamagui/themes";
 
 const logoMediaQuery = (size: keyof typeof tokens.size) => ({
   width: tokens.size[size].val,
@@ -12,12 +12,12 @@ export const Logo = () => {
   const theme = useThemeName();
   const media = useMedia();
   const linkProps = useLink({
-    href: '/',
+    href: "/",
   });
 
   return (
     <Button
-      size={'$6'}
+      size={"$6"}
       chromeless
       focusStyle={{}}
       icon={
@@ -25,7 +25,8 @@ export const Logo = () => {
           priority
           src={`/images/logo_${theme}.png`}
           alt="logo"
-          resizeMode="contain"
+          // resizeMode="contain"
+          contentFit="cover"
           sizes="(max-width: 600px) 400px,
                  800px"
           {...logoMediaQuery(8)}

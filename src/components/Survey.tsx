@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  View,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { Modal, View, StyleSheet, TouchableOpacity } from "react-native";
 import {
   Button,
   ScrollView,
@@ -18,45 +12,35 @@ import {
 import Image from "./Image";
 import { Video } from "expo-av";
 import { Activity, Airplay } from "@tamagui/lucide-icons";
-const screenWidth = Dimensions.get("window").width - 100;
+import OptionComponent from "./Option";
 
 interface SurveyOption {
   type: "text" | "image" | "video";
   value: string;
+  result: number;
 }
 
 interface SurveyProps {
   options: SurveyOption[];
+  result: number;
   onConfirm: (selectedOption: SurveyOption) => void;
 }
 
 interface SheetInfoProps {
   option: SurveyOption;
   open?: boolean;
+
   setOpen: (open: boolean) => void;
   onConfirm: (selectedOption: SurveyOption) => void;
 }
 
-const renderOption = (option: SurveyOption) => {
-  switch (option.type) {
-    case "text":
-      return <Text style={styles.optionText}>{option.value}</Text>;
-    case "image":
-      return <Image src={{ uri: option.value }} style={styles.cardContent} />;
-    case "video":
-      return (
-        <Video
-          source={{ uri: option.value }}
-          style={styles.cardContent}
-          useNativeControls
-        />
-      );
-    default:
-      return null;
-  }
-};
-
-function SheetInfo({ option, open, setOpen, onConfirm }: SheetInfoProps) {
+function SheetInfo({
+  option,
+  open,
+  setOpen,
+  onConfirm,
+  result,
+}: SheetInfoProps) {
   const [position, setPosition] = useState(0);
 
   return (
@@ -78,7 +62,7 @@ function SheetInfo({ option, open, setOpen, onConfirm }: SheetInfoProps) {
             Potwierdź Twój wybór
           </H2>
           <XStack mt="$6">
-            <View style={styles.card}>{option && renderOption(option)}</View>
+            <OptionComponent option={option} />
           </XStack>
           <XStack>
             <Button
@@ -99,7 +83,7 @@ function SheetInfo({ option, open, setOpen, onConfirm }: SheetInfoProps) {
   );
 }
 
-const Survey: React.FC<SurveyProps> = ({ options, onConfirm }) => {
+const Survey: React.FC<SurveyProps> = ({ options, onConfirm, result }) => {
   const [selectedOption, setSelectedOption] = useState<SurveyOption | null>(
     null
   );
@@ -108,16 +92,17 @@ const Survey: React.FC<SurveyProps> = ({ options, onConfirm }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {options.map((option, index) => (
-          <TouchableOpacity
-            key={index}
+        {options.map((option, idx) => (
+          <OptionComponent
+            key={`option-${option.result}-${idx}`}
+            option={option}
             onPress={() => {
-              setSelectedOption(option);
-              setShowConfirmSheet(true);
+              if (!result) {
+                setSelectedOption(option);
+                setShowConfirmSheet(true);
+              }
             }}
-          >
-            <View style={styles.card}>{renderOption(option)}</View>
-          </TouchableOpacity>
+          />
         ))}
       </ScrollView>
 
@@ -137,42 +122,6 @@ const Survey: React.FC<SurveyProps> = ({ options, onConfirm }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  card: {
-    width: screenWidth,
-    height: screenWidth,
-    backgroundColor: "white",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 50,
-    marginRight: 50,
-    marginBottom: 50,
-    borderRadius: 20,
-  },
-  cardContent: {
-    width: screenWidth,
-    height: screenWidth,
-  },
-  optionText: {
-    fontSize: 24,
-    textAlign: "center",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: 300,
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
   },
 });
 

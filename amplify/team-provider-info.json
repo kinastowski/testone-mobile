@@ -17,6 +17,9 @@
       },
       "storage": {
         "s3testzonestoragef2e4c55e": {}
+      },
+      "api": {
+        "testzone": {}
       }
     }
   }
