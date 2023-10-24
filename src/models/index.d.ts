@@ -50,7 +50,7 @@ type EagerUserTask = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly result?: number | null;
+  readonly result?: string | null;
   readonly stats?: string | null;
   readonly comment?: string | null;
   readonly taskId?: string | null;
@@ -64,7 +64,7 @@ type LazyUserTask = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly result?: number | null;
+  readonly result?: string | null;
   readonly stats?: string | null;
   readonly comment?: string | null;
   readonly taskId?: string | null;

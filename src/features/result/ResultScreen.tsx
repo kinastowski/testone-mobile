@@ -66,9 +66,9 @@ function ItemDetail({ id }: ItemDetailProps) {
 
   const deleteTask = async () => {
     try {
-      // const toDelete = await DataStore.query(UserTask, id);
-      if (item.userTask) {
-        await DataStore.delete(item.userTask);
+      const toDelete = await DataStore.query(UserTask, item.userTask.id);
+      if (toDelete) {
+        await DataStore.delete(toDelete);
         console.log("Task successfully deleted!");
       }
     } catch (error) {

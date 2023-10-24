@@ -8,9 +8,9 @@ type Task @model @auth(rules: [{allow: private}, {allow: public, provider: iam}]
   stats: AWSJSON
 }
 
-type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allow: owner}, {allow: public, provider: iam}]) {
+type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allow: owner}, {allow: public, provider: iam}, {allow: public, operations: [update, delete, read]}]) {
   id: ID!
-  result: Int
+  result: AWSJSON
   stats: AWSJSON
   comment: String
   taskId: String

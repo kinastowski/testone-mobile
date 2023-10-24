@@ -31,7 +31,7 @@ import { useTaskContext } from "../../context/TaskContext";
 import { Auth } from "aws-amplify";
 
 interface Item {
-  taskId: string;
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -112,8 +112,10 @@ export function HomeScreen() {
         <Button
           borderRadius="$8"
           onPress={async () => {
-            await DataStore.clear();
-            await DataStore.start();
+            try {
+              await DataStore.clear();
+              await DataStore.start();
+            } catch (err) {}
           }}
         >
           Odswieź
@@ -171,11 +173,20 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
   const { push } = useRouter();
   const [showCountDown, setShowCountDown] = useState<boolean>(false);
 
-  const goTo = () => {
+  const startUserTest = async () => {
     setShowCountDown(!showCountDown);
     setOpen(false);
 
-    push("/survey/" + item.id);
+    const res = await DataStore.save(
+      new UserTask({
+        taskId: item.id,
+        // owner: `${owner}::${owner}`,
+      })
+    );
+
+    console.log("res", res);
+
+    push("/survey/" + res.id);
   };
 
   return (
@@ -195,9 +206,9 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
           {showCountDown && (
             <CountdownComponent
               duration={1}
-              onCoutdownEnd={() => {
+              onCoutdownEnd={async () => {
                 setShowCountDown(false);
-                goTo();
+                await startUserTest();
               }}
             />
           )}

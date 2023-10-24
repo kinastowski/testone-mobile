@@ -3,6 +3,7 @@ import {
   Paragraph,
   YStack,
   H2,
+  H4,
   XStack,
   Circle,
   ScrollView,
@@ -23,6 +24,7 @@ import { useTaskContext } from "../../context/TaskContext";
 
 import TimerComponent from "../../components/Timer";
 import Survey from "../../components/Survey";
+
 import { useRouter } from "solito/router";
 
 const { useParam } = createParam<{ id: string }>();
@@ -48,11 +50,18 @@ function ItemDetail({ id }: ItemDetailProps) {
   const { push } = useRouter();
 
   const [item, setItem] = useState<Item>();
+  const [userTask, setUserTask] = useState<UserTask>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await DataStore.query(Task, id);
-      setItem(result);
+      const ut = await DataStore.query(UserTask, id);
+      const task = await DataStore.query(Task, ut.taskId);
+      setUserTask(ut);
+      setItem(task);
+      const subscription = DataStore.observe(UserTask, id).subscribe((msg) => {
+        console.log("ABCX", msg.model, msg.opType, msg.element);
+        // setItem(msg.element);
+      });
     };
 
     fetchData();
@@ -60,24 +69,53 @@ function ItemDetail({ id }: ItemDetailProps) {
 
   if (!item) return null;
 
-  async function selectOption(option: {
+  async function saveResult(option: {
     value: string;
     type: string;
     result: number;
+    rating?: number;
   }) {
     // console.log("Selected option: ", option);
-    const owner = (await Auth.currentAuthenticatedUser()).username;
+    // const owner = (await Auth.currentAuthenticatedUser()).username;
+    let res = null;
+    if (userTask) {
+      const original = await DataStore.query(UserTask, userTask.id);
+      res = await DataStore.save(
+        UserTask.copyOf(original, (updated) => {
+          updated.result = {
+            ...original.result,
+            [option.result]: {
+              id: option.result,
+              rating: option.rating,
+              comment: "",
+            },
+          };
+        })
+      );
 
-    const res = await DataStore.save(
-      new UserTask({
-        result: option.result,
-        taskId: id,
-        // owner: `${owner}::${owner}`,
-      })
-    );
+      setUserTask(res);
+    }
 
-    push("/comment/" + res.id);
+    // else {
+    //   res = await DataStore.save(
+    //     new UserTask({
+    //       result: {
+    //         [option.result]: {
+    //           id: option.result,
+    //           rating: option.rating,
+    //           comment: "",
+    //         },
+    //       },
+    //       taskId: id,
+    //       // owner: `${owner}::${owner}`,
+    //     })
+    //   );
+    // }
+    // setUserTask(res);
+    // push("/comment/" + res.id);
   }
+
+  if (!userTask) return null;
 
   return (
     <SafeAreaView
@@ -88,21 +126,38 @@ function ItemDetail({ id }: ItemDetailProps) {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={1} jc="center" ai="center" space>
           {/* <Image src={{ uri: item.image }} width={460} height={220} /> */}
-
+          {/*  */}
           <TimerComponent active={true} testId={id} />
 
           <H2 ta="center" p="$4" fontFamily={"$silkscreen"}>
-            {item.title}
+            Witaj w Teście Konsumenckim!
           </H2>
+          <H4 ta="center" p="$4" fontFamily={"$silkscreen"}>
+            {item.title}
+          </H4>
           <XStack px="$6" mb="$8">
-            <Paragraph ta="justify" fontFamily={"$silkscreen"}>
-              {item.details.description}
+            <Paragraph>
+              {/* {item.details.description} */}
+              Witaj w naszym teście konsumenckim! Twoja opinia ma dla nas
+              ogromne znaczenie, dlatego chcielibyśmy Cię serdecznie przywitać i
+              podziękować za udział w badaniu. Poniżej znajdziesz wszystkie
+              dostępne warianty do oceny. Twoja zadanie polega na dokładnym
+              zbadaniu każdego z nich, ocenie na pięciopunktowej skali
+              gwiazdkowej oraz nagraniu krótkiej wypowiedzi, w której opiszesz
+              swoje powody oceny. Ciesz się procesem oceny i pamiętaj, że Twoja
+              opinia ma realny wpływ na to, co oferujemy. Dziękujemy za
+              zaangażowanie!
             </Paragraph>
           </XStack>
-          <Survey onConfirm={selectOption} options={item.details.options} />
+
+          <Survey
+            onConfirm={saveResult}
+            options={item.details.options}
+            userTaskId={userTask.id}
+          />
 
           <Button {...linkProps} icon={ChevronLeft}>
-            Go Home
+            Wróc
           </Button>
         </YStack>
       </ScrollView>

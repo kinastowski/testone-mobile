@@ -117,7 +117,7 @@ export const schema = {
                 "result": {
                     "name": "result",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -193,6 +193,14 @@ export const schema = {
                                 "provider": "iam",
                                 "operations": [
                                     "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
                                     "update",
                                     "delete",
                                     "read"
@@ -288,5 +296,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "c2babdc8822b0c2438d0d3ac33a8a601"
+    "version": "61e61c57622ac89309e573a262bfcc7d"
 };
