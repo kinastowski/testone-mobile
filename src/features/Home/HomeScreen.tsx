@@ -212,7 +212,11 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
               }}
             />
           )}
-          <Image src={{ uri: item.image }} width={460} height={220} />
+          <Image
+            src={{ uri: "tr:w-460,h-220/" + item.image }}
+            width={460}
+            height={220}
+          />
           <Sheet.Handle />
 
           <H2 ta="center" p="$4" fontFamily={"$silkscreen"}>

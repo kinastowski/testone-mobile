@@ -25,6 +25,7 @@ export default (props: ImageProps) => {
   return (
     <SolitoImage
       {...props}
+      src={"https://ik.imagekit.io/64e8hixka/" + props.src}
       placeholder="blur"
       blurDataURL="|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj["
     />
