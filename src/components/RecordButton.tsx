@@ -47,7 +47,7 @@ function RecordButton({
 
   async function startRecording() {
     try {
-      console.log("Requesting permissions.........");
+      console.log("Requesting permissions...");
       const { status } = await Audio.getPermissionsAsync();
       if (status !== "granted") {
         await Audio.requestPermissionsAsync();
@@ -58,14 +58,16 @@ function RecordButton({
         playsInSilentModeIOS: true,
       });
 
-      console.log("Starting recording..");
+      console.log("Permissions granted", status);
+
+      console.log("Starting recording...");
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
       setRecording(recording);
       console.log("Recording started");
     } catch (err) {
-      console.error("Failed to start recording", err);
+      console.error("Failed to start recording...", err);
     }
   }
 

@@ -154,10 +154,11 @@ const Profile: React.FC<ProfileProps> = ({ profileId }) => {
         value={profile && profile.gender}
         onValueChange={setGender}
         name="gender"
+        id="rg-22"
         items={[
+          { value: "all", label: "każda" },
           { value: "female", label: "kobieta" },
           { value: "male", label: "mężczyzna" },
-          { value: "other", label: "inna" },
         ]}
       />
 
@@ -170,6 +171,7 @@ const Profile: React.FC<ProfileProps> = ({ profileId }) => {
         value={profile && profile.education}
         onValueChange={setEducation}
         name="education"
+        id="rg-23"
         items={[
           { value: "1", label: "podstawowe" },
           { value: "2", label: "średnie" },
@@ -212,6 +214,7 @@ const Profile: React.FC<ProfileProps> = ({ profileId }) => {
         value={profile && profile.cityPopulation}
         onValueChange={setCityPopulation}
         name="cityPopulation"
+        id="rg-23"
         items={[
           { value: "1", label: "<100 tyś" },
           { value: "2", label: "100-500 tyś" },

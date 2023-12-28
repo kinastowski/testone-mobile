@@ -6,6 +6,52 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
+type EagerDraftTask = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<DraftTask, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly description?: string | null;
+  readonly details?: string | null;
+  readonly image?: string | null;
+  readonly constraints?: string | null;
+  readonly stats?: string | null;
+  readonly type?: number | null;
+  readonly owner?: string | null;
+  readonly reward?: number | null;
+  readonly other?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyDraftTask = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<DraftTask, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly description?: string | null;
+  readonly details?: string | null;
+  readonly image?: string | null;
+  readonly constraints?: string | null;
+  readonly stats?: string | null;
+  readonly type?: number | null;
+  readonly owner?: string | null;
+  readonly reward?: number | null;
+  readonly other?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type DraftTask = LazyLoading extends LazyLoadingDisabled ? EagerDraftTask : LazyDraftTask
+
+export declare const DraftTask: (new (init: ModelInit<DraftTask>) => DraftTask) & {
+  copyOf(source: DraftTask, mutator: (draft: MutableModel<DraftTask>) => MutableModel<DraftTask> | void): DraftTask;
+}
+
 type EagerTask = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Task, 'id'>;
@@ -16,8 +62,12 @@ type EagerTask = {
   readonly description?: string | null;
   readonly details?: string | null;
   readonly image?: string | null;
-  readonly constrains?: string | null;
+  readonly constraints?: string | null;
   readonly stats?: string | null;
+  readonly type?: number | null;
+  readonly owner?: string | null;
+  readonly reward?: number | null;
+  readonly other?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -32,8 +82,12 @@ type LazyTask = {
   readonly description?: string | null;
   readonly details?: string | null;
   readonly image?: string | null;
-  readonly constrains?: string | null;
+  readonly constraints?: string | null;
   readonly stats?: string | null;
+  readonly type?: number | null;
+  readonly owner?: string | null;
+  readonly reward?: number | null;
+  readonly other?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -85,6 +139,8 @@ type EagerUser = {
   };
   readonly id: string;
   readonly profile?: string | null;
+  readonly tasks?: string | null;
+  readonly userTasks?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -96,6 +152,8 @@ type LazyUser = {
   };
   readonly id: string;
   readonly profile?: string | null;
+  readonly tasks?: string | null;
+  readonly userTasks?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

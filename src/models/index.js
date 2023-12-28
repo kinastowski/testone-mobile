@@ -4,9 +4,10 @@ import { schema } from './schema';
 
 
 
-const { Task, UserTask, User } = initSchema(schema);
+const { DraftTask, Task, UserTask, User } = initSchema(schema);
 
 export {
+  DraftTask,
   Task,
   UserTask,
   User

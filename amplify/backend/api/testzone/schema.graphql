@@ -1,14 +1,32 @@
-type Task @model @auth(rules: [{allow: private}, {allow: public, provider: iam}]) {
+type DraftTask @model @auth(rules: [{allow: private}]) {
   id: ID!
   title: String
   description: String
   details: AWSJSON
   image: String
-  constrains: AWSJSON
+  constraints: AWSJSON
   stats: AWSJSON
+  type: Int
+  owner: String
+  reward: Int
+  other: AWSJSON
 }
 
-type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allow: owner}, {allow: public, provider: iam}, {allow: public, operations: [update, delete, read]}]) {
+type Task @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  title: String
+  description: String
+  details: AWSJSON
+  image: String
+  constraints: AWSJSON
+  stats: AWSJSON
+  type: Int
+  owner: String
+  reward: Int
+  other: AWSJSON
+}
+
+type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allow: owner}, {allow: public, operations: [update, delete, read]}]) {
   id: ID!
   result: AWSJSON
   stats: AWSJSON
@@ -16,8 +34,10 @@ type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allo
   taskId: String
 }
 
-type User @model @auth(rules: [{allow: private}, {allow: owner}, {allow: public, provider: iam}]) {
+type User @model @auth(rules: [{allow: private}, {allow: owner}]) {
   id: ID!
   profile: AWSJSON
+  tasks: AWSJSON
+  userTasks: AWSJSON
 }
  

@@ -144,7 +144,7 @@ function SheetInfo({
             <>
               <StepHeader
                 num="1"
-                title="Ocena Wariant"
+                title="Ocena Wariantu"
                 description="Proszę ocenić go na pięciopunktowej skali gwiazdkowej, gdzie 1 oznacza bardzo negatywną ocenę, a 5 oznacza bardzo pozytywną ocenę. Możesz również używać połówek gwiazdek, jeśli uważasz, że ocena jest bardziej precyzyjna."
               />
 
@@ -212,6 +212,7 @@ const Survey: React.FC<SurveyProps> = ({
   onConfirm,
   result,
   userTaskId,
+  taskId,
 }) => {
   const [selectedOption, setSelectedOption] = useState<SurveyOption | null>(
     null
@@ -241,6 +242,7 @@ const Survey: React.FC<SurveyProps> = ({
             <OptionComponent
               key={`option-${option.result}-${idx}`}
               option={option}
+              taskId={taskId}
               onPress={() => {
                 if (!result) {
                   setSelectedOption(option);

@@ -130,7 +130,7 @@ export function MyScreen() {
                   </Button>
                 </Card.Footer>
                 <Card.Background borderRadius="$4">
-                  <Image src={{ uri: item.image }} fill />
+                  <Image src={"tr:w-460,h-220/" + item.image} fill />
                   <XStack flex={1} backgroundColor="rgba(0,0,0,0.5)" />
                 </Card.Background>
               </StyledCard>

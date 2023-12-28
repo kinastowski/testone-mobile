@@ -15,10 +15,15 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"
+    },
+    "userPoolGroups": {
+      "adminsGroupRole": "string",
+      "managersGroupRole": "string",
+      "testersGroupRole": "string"
     }
   },
   "storage": {
-    "s3testzonestoragef2e4c55e": {
+    "testzone": {
       "BucketName": "string",
       "Region": "string"
     }

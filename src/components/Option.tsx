@@ -33,24 +33,30 @@ export const Title = styled(Card.Header, {
 });
 
 const OptionComponent: React.FC<OptionProps> = ({
+  taskId,
   option,
   selected,
   onPress,
 }) => {
   const renderOption = (option: ResultOption) => {
     switch (option.type) {
-      case "text":
+      case 1:
         return (
           <View style={styles.container}>
             <Text style={styles.optionText}>{option.value}</Text>
           </View>
         );
-      case "image":
-        return <Image src={{ uri: option.value }} style={styles.cardContent} />;
-      case "video":
+      case 2:
+        return (
+          <View style={styles.container}>
+            <Image src={option.value} style={styles.cardContent} />
+          </View>
+        );
+
+      case 3:
         return (
           <Video
-            source={{ uri: option.value }}
+            source={option.value}
             style={styles.cardContent}
             useNativeControls
           />

@@ -97,7 +97,7 @@ function ItemDetail({ id }: ItemDetailProps) {
           <H2 ta="center" p="$4" fontFamily={"$silkscreen"}>
             {item.task.title}
           </H2>
-          <XStack px="$6" mb="$8">
+          <XStack px="$2">
             <Paragraph ta="justify" fontFamily={"$silkscreen"}>
               {item.task.details.description}
             </Paragraph>
@@ -105,7 +105,8 @@ function ItemDetail({ id }: ItemDetailProps) {
           <Result
             // onConfirm={selectOption}
             options={item.task.details.options}
-            result={item.userTask.result}
+            results={item.userTask.result}
+            taskId={item.task.id}
           />
 
           <Button {...linkProps} icon={ChevronLeft}>

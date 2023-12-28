@@ -154,6 +154,7 @@ function ItemDetail({ id }: ItemDetailProps) {
             onConfirm={saveResult}
             options={item.details.options}
             userTaskId={userTask.id}
+            taskId={item.id}
           />
 
           <Button {...linkProps} icon={ChevronLeft}>

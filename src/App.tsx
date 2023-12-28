@@ -184,7 +184,7 @@ const linking = {
 };
 
 const InnerApp = () => {
-  const colorScheme = useColorScheme() || "light";
+  const colorScheme = "dark";
   const isDarkMode = colorScheme === "dark";
   const theme = useTheme();
 
@@ -228,7 +228,7 @@ const InnerApp = () => {
 };
 
 const App = () => {
-  const theme = useColorScheme() || "light";
+  const theme = "dark";
 
   const [loaded] = useFonts(tamaguiFonts);
 

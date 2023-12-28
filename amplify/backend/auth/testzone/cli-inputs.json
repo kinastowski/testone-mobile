@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "testAuthIdentityPool",
+    "identityPoolName": "testzone_identitypool_dbf85d41",
     "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "testzo8f0d49e1",
-    "userPoolName": "testzone",
+    "resourceNameTruncated": "testzo0015d8c3",
+    "userPoolName": "testzone-pool",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -14,36 +14,42 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Verification code: {####}",
-    "emailVerificationMessage": "Verification code: {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-      "Requires Lowercase",
-      "Requires Numbers",
-      "Requires Uppercase"
+    "passwordPolicyCharacters": [],
+    "requiredAttributes": [
+      "email"
     ],
-    "requiredAttributes": [],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [],
-    "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "testzo8f0d49e1_userpoolclient_lambda_role",
+    "userpoolClientWriteAttributes": [
+      "email"
+    ],
+    "userpoolClientReadAttributes": [
+      "email"
+    ],
+    "userpoolClientLambdaRole": "testzo0015d8c3_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "8f0d49e1",
+    "sharedId": "0015d8c3",
     "resourceName": "testzone",
     "authSelections": "identityPoolAndUserPool",
-    "serviceName": "Cognito",
+    "useDefault": "manual",
     "usernameAttributes": [
       "email"
     ],
-    "useDefault": "manual",
-    "userPoolGroups": false,
-    "userPoolGroupList": [],
+    "userPoolGroups": true,
     "adminQueries": false,
-    "thirdPartyAuth": false,
-    "authProviders": [],
+    "triggers": {},
+    "hostedUI": false,
+    "userPoolGroupList": [
+      "testers",
+      "managers",
+      "admins"
+    ],
+    "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
     "authRoleArn": {
@@ -59,7 +65,6 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": [],
-    "hostedUI": false
+    "dependsOn": []
   }
 }
