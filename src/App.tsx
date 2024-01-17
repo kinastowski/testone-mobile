@@ -1,6 +1,6 @@
 import { StyleSheet, StatusBar, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { TamaguiProvider, useTheme, Stack, H4 } from "tamagui";
+import { TamaguiProvider, useTheme, Stack, H4, Text, View } from "tamagui";
 import { SolitoImageProvider } from "solito/image";
 import {
   initialWindowMetrics,
@@ -35,6 +35,8 @@ import { Amplify } from "aws-amplify";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import { Button } from "tamagui";
 import { LogBox } from "react-native";
+import { I18n } from "aws-amplify";
+import { translations } from "@aws-amplify/ui";
 
 LogBox.ignoreLogs([
   `Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.`,
@@ -226,6 +228,22 @@ const InnerApp = () => {
     </SafeAreaProvider>
   );
 };
+
+const MyAppHeader = () => {
+  return (
+    <View>
+      <Text>My Header</Text>
+    </View>
+  );
+};
+
+I18n.putVocabularies(translations);
+I18n.setLanguage("pl");
+I18n.putVocabulariesForLanguage("pl", {
+  "Enter your Password": "Wprowadź swoje hasło",
+  "Forgot Password?": "Odzyskiwanie hasła",
+  "Forgot your password?": "Chcesz odzyskać hasło?",
+});
 
 const App = () => {
   const theme = "dark";

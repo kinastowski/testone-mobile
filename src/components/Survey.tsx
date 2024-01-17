@@ -238,19 +238,20 @@ const Survey: React.FC<SurveyProps> = ({
     <>
       <View style={styles.container}>
         <ScrollView>
-          {suffledOptions.map((option, idx) => (
-            <OptionComponent
-              key={`option-${option.result}-${idx}`}
-              option={option}
-              taskId={taskId}
-              onPress={() => {
-                if (!result) {
-                  setSelectedOption(option);
-                  setShowConfirmSheet(true);
-                }
-              }}
-            />
-          ))}
+          {suffledOptions &&
+            suffledOptions.map((option, idx) => (
+              <OptionComponent
+                key={`option-${option.result}-${idx}`}
+                option={option}
+                taskId={taskId}
+                onPress={() => {
+                  if (!result) {
+                    setSelectedOption(option);
+                    setShowConfirmSheet(true);
+                  }
+                }}
+              />
+            ))}
         </ScrollView>
       </View>
       <Button
