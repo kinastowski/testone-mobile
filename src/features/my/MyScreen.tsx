@@ -24,11 +24,12 @@ import { useRouter } from "solito/router";
 import Image from "../../components/Image";
 import { Activity } from "@tamagui/lucide-icons";
 import { DataStore } from "aws-amplify";
-import { UserTask, Task } from "../../models";
+import { UserTask, Task, User } from "../../models";
 // import {sortBy} from "lodash";
 import CountdownComponent from "../../components/Countdown";
 import { Auth } from "aws-amplify";
 import { useTaskContext } from "../../context/TaskContext";
+import { Coins } from "@tamagui/lucide-icons";
 
 interface Item {
   taskId: string;
@@ -66,8 +67,10 @@ export function MyScreen() {
   // const { state, dispatch } = useTaskContext();
   const [active, setActive] = useState({});
   const [tasks, setTasks] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [coins, setCoins] = useState();
+
   const { push } = useRouter();
+  let { user } = useAuthenticator();
 
   const showDetails = (item: Item) => {
     push("/result/" + item.id);
@@ -77,7 +80,6 @@ export function MyScreen() {
     const fetchTasks = async () => {
       const tasks = await DataStore.query(Task);
 
-      const username = (await Auth.currentAuthenticatedUser()).username;
       const userTasks = await DataStore.query(UserTask);
 
       // console.log("userTasks", userTasks);
@@ -87,6 +89,11 @@ export function MyScreen() {
       // Filter Tasks whose id is present in userTaskTaskIds
       const myTasks = tasks.filter((task) => userTaskTaskIds.includes(task.id));
       setTasks(myTasks);
+      const result = await Auth.currentAuthenticatedUser();
+      const c = (await Auth.currentAuthenticatedUser()).attributes[
+        "custom:coins"
+      ];
+      setCoins(c);
     };
 
     fetchTasks();
@@ -98,6 +105,49 @@ export function MyScreen() {
         flex: 1,
       }}
     >
+      <StyledCard
+        elevate
+        size="$1"
+        animation="bouncy"
+        size="$4"
+        width="100%"
+        height={180}
+        scale={0.9}
+        hoverStyle={{ scale: 0.925 }}
+        pressStyle={{ scale: 0.875 }}
+        onPress={async () => {
+          try {
+            await DataStore.clear();
+            await DataStore.start();
+          } catch (err) {}
+        }}
+      >
+        <Title>
+          <Text px="$1" fontFamily={"$silkscreen"}>
+            Saldo konta
+          </Text>
+          <Button
+            borderRadius="$8"
+            size="$10"
+            fontFamily={"$silkscreen"}
+            mx="$4"
+            my="$2"
+            icon={<Coins size="$4" />}
+          >
+            {coins}
+          </Button>
+          {/* <Paragraph theme="alt2" color="white">
+                    {trimToMaxWords(props.item.description)}
+                  </Paragraph> */}
+        </Title>
+        <Card.Footer padded>
+          <XStack flex={1} />
+        </Card.Footer>
+        <Card.Background borderRadius="$4"></Card.Background>
+      </StyledCard>
+      <Text px="$4" fontFamily={"$silkscreen"}>
+        Zrealizowane zadania
+      </Text>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={0.5} ai="center" p="$6">
           {tasks &&

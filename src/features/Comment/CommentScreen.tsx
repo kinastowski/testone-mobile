@@ -146,7 +146,9 @@ function ItemDetail({ id }: ItemDetailProps) {
               backgroundColor={recording ? "red" : "green"}
               elevation="$4"
             />
-            <Text>{recording ? "Stop Recording" : "Start Recording"}</Text>
+            <Text>
+              {recording ? "Rozpocznij nagrywanie" : "Zakończ nagrywanie"}
+            </Text>
           </Button>
 
           {showCountDown && (

@@ -1,7 +1,7 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "testzone_identitypool_dbf85d41",
+    "identityPoolName": "testzone_identitypool_8cb05d8b",
     "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "testzo0015d8c3",
     "userPoolName": "testzone-pool",
@@ -46,8 +46,8 @@
     "hostedUI": false,
     "userPoolGroupList": [
       "testers",
-      "managers",
-      "admins"
+      "admins",
+      "managers"
     ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
@@ -65,6 +65,11 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": []
+    "dependsOn": [],
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": [],
+    "authProviders": []
   }
 }

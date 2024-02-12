@@ -79,6 +79,7 @@ function ItemDetail({ id }: ItemDetailProps) {
     // const owner = (await Auth.currentAuthenticatedUser()).username;
     let res = null;
     if (userTask) {
+      const user = await Auth.currentAuthenticatedUser();
       const original = await DataStore.query(UserTask, userTask.id);
       res = await DataStore.save(
         UserTask.copyOf(original, (updated) => {
@@ -88,6 +89,7 @@ function ItemDetail({ id }: ItemDetailProps) {
               id: option.result,
               rating: option.rating,
               comment: "",
+              rec: `${user.username}_${userTask.id}_${option.result}_review.m4a`,
             },
           };
         })

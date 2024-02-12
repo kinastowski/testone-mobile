@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
 import { SafeAreaView, StyleSheet } from "react-native";
 import Profile from "../../components/Profile";
+import { Button } from "@aws-amplify/ui-react-native/dist/primitives";
 interface ItemDetailProps {
   profile: string;
 }

@@ -48,7 +48,7 @@ const Result: React.FC<ResultProps> = ({ options, results, taskId }) => {
             try {
               const res = results[option.value];
               return (
-                <View style={styles.result} ta="center">
+                <View style={styles.result} ta="center" key={`rea-` + index}>
                   <H3></H3>
                   <XStack px="$2" mb="$2">
                     <Paragraph ta="justify" fontFamily={"$silkscreen"}>

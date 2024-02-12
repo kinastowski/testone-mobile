@@ -1,4 +1,4 @@
-type DraftTask @model @auth(rules: [{allow: private}]) {
+type DraftTask @model @auth(rules: [{ allow: private }]) {
   id: ID!
   title: String
   description: String
@@ -10,9 +10,10 @@ type DraftTask @model @auth(rules: [{allow: private}]) {
   owner: String
   reward: Int
   other: AWSJSON
+  max: Int
 }
 
-type Task @model @auth(rules: [{allow: private}]) {
+type Task @model @auth(rules: [{ allow: private }]) {
   id: ID!
   title: String
   description: String
@@ -24,20 +25,35 @@ type Task @model @auth(rules: [{allow: private}]) {
   owner: String
   reward: Int
   other: AWSJSON
+  end: AWSDateTime
 }
 
-type UserTask @model @auth(rules: [{allow: private, operations: [create]}, {allow: owner}, {allow: public, operations: [update, delete, read]}]) {
+type UserTask
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create] }
+      { allow: owner }
+      { allow: public, operations: [update, delete, read] }
+    ]
+  ) {
   id: ID!
   result: AWSJSON
   stats: AWSJSON
   comment: String
   taskId: String
+  rec: String
 }
 
-type User @model @auth(rules: [{allow: private}, {allow: owner}]) {
+type User @model @auth(rules: [{ allow: private }, { allow: owner }]) {
   id: ID!
   profile: AWSJSON
   tasks: AWSJSON
   userTasks: AWSJSON
 }
- 
+
+type Query {
+  getCompany(id: String): AWSJSON
+    @function(name: "testzone-staging-getCompanyPy")
+    @aws_api_key
+}

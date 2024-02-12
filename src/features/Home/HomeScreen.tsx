@@ -29,6 +29,7 @@ import { UserTask, Task } from "../../models";
 import CountdownComponent from "../../components/Countdown";
 import { useTaskContext } from "../../context/TaskContext";
 import { Auth } from "aws-amplify";
+import { Coins } from "@tamagui/lucide-icons";
 
 interface Item {
   id: string;
@@ -67,6 +68,8 @@ export function HomeScreen() {
   const [active, setActive] = useState({});
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
+  const [coins, setCoins] = useState(false);
+
   const { push } = useRouter();
 
   const showDetails = (item: Item) => {
@@ -93,6 +96,10 @@ export function HomeScreen() {
       // );
 
       setTasks(otherTasks);
+      const c = (await Auth.currentAuthenticatedUser()).attributes[
+        "custom:coins"
+      ];
+      setCoins(c);
     };
 
     fetchTasks();
@@ -108,19 +115,56 @@ export function HomeScreen() {
         flex: 1,
       }}
     >
+      <StyledCard
+        elevate
+        size="$1"
+        animation="bouncy"
+        size="$4"
+        width="100%"
+        height={180}
+        scale={0.9}
+        hoverStyle={{ scale: 0.925 }}
+        pressStyle={{ scale: 0.875 }}
+        onPress={async () => {
+          try {
+            await DataStore.clear();
+            await DataStore.start();
+          } catch (err) {}
+        }}
+      >
+        <Title>
+          <Text px="$1" fontFamily={"$silkscreen"}>
+            Saldo konta
+          </Text>
+          <Button
+            borderRadius="$8"
+            size="$10"
+            fontFamily={"$silkscreen"}
+            mx="$4"
+            my="$2"
+            icon={<Coins size="$4" />}
+            onPress={async () => {
+              try {
+                await DataStore.clear();
+                await DataStore.start();
+              } catch (err) {}
+            }}
+          >
+            {coins}
+          </Button>
+          {/* <Paragraph theme="alt2" color="white">
+                    {trimToMaxWords(props.item.description)}
+                  </Paragraph> */}
+        </Title>
+        <Card.Footer padded>
+          <XStack flex={1} />
+        </Card.Footer>
+        <Card.Background borderRadius="$4"></Card.Background>
+      </StyledCard>
+      <Text px="$4" fontFamily={"$silkscreen"}>
+        Nowe zadania
+      </Text>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Button
-          borderRadius="$8"
-          onPress={async () => {
-            try {
-              await DataStore.clear();
-              await DataStore.start();
-            } catch (err) {}
-          }}
-        >
-          Odswieź
-        </Button>
-
         <YStack f={0.5} ai="center" p="$6">
           {tasks &&
             tasks.map((item, idx) => (

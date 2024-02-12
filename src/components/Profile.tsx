@@ -221,9 +221,16 @@ const Profile: React.FC<ProfileProps> = ({ profileId }) => {
           { value: "3", label: ">500 tyś" },
         ]}
       />
-      <XStack py="$8" alignSelf="center">
-        <Button onPress={saveProfile} theme="active" size="$6">
+      <XStack py="$6" alignSelf="center">
+        <Button onPress={saveProfile} theme="active" size="$4" mr="$4">
           Zapisz
+        </Button>
+        <Button
+          onPress={() => {
+            Auth.signOut();
+          }}
+        >
+          Wyloguj
         </Button>
       </XStack>
     </ScrollView>

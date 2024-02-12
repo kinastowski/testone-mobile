@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { styled, Card, Button, XStack, H4, Text } from "tamagui";
 import { CheckCircle } from "@tamagui/lucide-icons";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 import Image from "./Image";
 
@@ -42,24 +43,26 @@ const OptionComponent: React.FC<OptionProps> = ({
     switch (option.type) {
       case 1:
         return (
-          <View style={styles.container}>
-            <Text style={styles.optionText}>{option.value}</Text>
-          </View>
+          <Card.Background borderRadius="$4">
+            <View style={styles.container}>
+              <Text style={styles.optionText}>{option.result}</Text>
+            </View>
+          </Card.Background>
         );
       case 2:
         return (
-          <View style={styles.container}>
-            <Image src={option.value} style={styles.cardContent} />
-          </View>
+          <Card.Background borderRadius="$4">
+            <View style={styles.container}>
+              <Image src={option.value} style={styles.cardContent} />
+            </View>
+          </Card.Background>
         );
 
       case 3:
         return (
-          <Video
-            source={option.value}
-            style={styles.cardContent}
-            useNativeControls
-          />
+          <View>
+            <YoutubePlayer height={230} videoId={option.result} />
+          </View>
         );
       default:
         return null;
@@ -92,9 +95,8 @@ const OptionComponent: React.FC<OptionProps> = ({
           </Button>
         )}
       </Card.Footer>
-      <Card.Background borderRadius="$4">
-        {renderOption(option)}
-      </Card.Background>
+
+      {renderOption(option)}
     </StyledCard>
   );
 };
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 24,
     textAlign: "center",
+    color: "black",
   },
 });
 

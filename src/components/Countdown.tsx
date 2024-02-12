@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   count: {
     fontSize: 40,
-    color: "white",
+    color: "black",
     fontFamily: "Silkscreen",
   },
   count2: {

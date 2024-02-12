@@ -80,6 +80,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "max": {
+                    "name": "max",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -202,6 +209,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "end": {
+                    "name": "end",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -277,6 +291,13 @@ export const schema = {
                 },
                 "taskId": {
                     "name": "taskId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "rec": {
+                    "name": "rec",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -430,5 +451,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "a6199ec01ca9f00050370363a56fd94d"
+    "version": "97dea6a1eff0c79a085e54181166a49b"
 };

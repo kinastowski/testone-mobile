@@ -214,6 +214,8 @@ const Survey: React.FC<SurveyProps> = ({
   userTaskId,
   taskId,
 }) => {
+  console.log("options", options);
+
   const [selectedOption, setSelectedOption] = useState<SurveyOption | null>(
     null
   );
