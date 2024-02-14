@@ -6,6 +6,7 @@ import {
   Sheet,
   Text,
   XStack,
+  YStack,
   H2,
   H4,
   Paragraph,
@@ -21,6 +22,7 @@ import {
 import OptionComponent from "./Option";
 import StarRating from "react-native-star-rating-widget";
 import RecordButton from "./RecordButton";
+import RecordVideoButton from "./RecordVideoButton";
 import { SafeAreaView } from "react-native";
 
 interface SurveyOption {
@@ -128,7 +130,7 @@ function SheetInfo({
         <Sheet.Frame ai="center">
           <Sheet.Handle />
 
-          <H2 ta="center" px="$4" fontFamily={"$silkscreen"}>
+          <H2 ta="center" px="$2" fontFamily={"$silkscreen"}>
             Zbadaj Wariant
           </H2>
           <Text px="$4">
@@ -137,11 +139,11 @@ function SheetInfo({
             na Twoją uwagę i dokładność.
           </Text>
 
-          <XStack mt="$6">
+          <YStack mt="$4">
             <OptionComponent option={option} />
-          </XStack>
+          </YStack>
           {step === 1 && (
-            <>
+            <YStack mt="$4">
               <StepHeader
                 num="1"
                 title="Ocena Wariantu"
@@ -151,23 +153,30 @@ function SheetInfo({
               <XStack mt="$6">
                 <StarRating rating={rating} onChange={changeRating} />
               </XStack>
-            </>
+            </YStack>
           )}
 
           {step === 2 && (
-            <>
+            <YStack mt="$4">
               <StepHeader
                 num="2"
                 title="Nagranie Motywacji"
                 description="Chcielibyśmy teraz poznać Twoje powody oceny wariantu. Proszę nagrać krótką wypowiedź (maksymalnie 10 sekund), w której opiszesz, dlaczego przyznałeś określoną ocenę. Twoja opinia jest dla nas bardzo ważna, więc bądź jak najbardziej szczery i wyraźny."
               />
-              <XStack mt="$6">
+              <XStack mt="$2">
                 <RecordButton
                   userTaskId={userTaskId}
                   resultId={option.result}
                 />
               </XStack>
-            </>
+
+              <XStack mt="$2">
+                <RecordVideoButton
+                  userTaskId={userTaskId}
+                  resultId={option.result}
+                />
+              </XStack>
+            </YStack>
           )}
           {step === 3 && (
             <>

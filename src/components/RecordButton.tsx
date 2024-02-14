@@ -118,7 +118,9 @@ function RecordButton({
           backgroundColor={recording ? "red" : "green"}
           elevation="$4"
         />
-        <Text>{recording ? "Stop Recording" : "Start Recording"}</Text>
+        <Text>
+          {recording ? "Zatrzymaj nagrywanie" : "Rozpocznij nagrywanie"}
+        </Text>
       </Button>
     </YStack>
   );

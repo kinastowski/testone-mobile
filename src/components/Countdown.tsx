@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { BlurView } from "@react-native-community/blur";
+// import { BlurView } from "@react-native-community/blur";
 import { Circle } from "tamagui";
 
 interface CountdownProps {
@@ -36,14 +36,14 @@ const CountdownComponent: React.FC<CountdownProps> = ({
   };
 
   return (
-    <BlurView style={styles.container} blurType="light" blurAmount={10}>
+    <View style={styles.container} blurType="light" blurAmount={10}>
       {seconds > 0 && (
         <Circle size={100} backgroundColor="$color" elevation="$4">
           <Text style={styles.count}>{formatTime(seconds)}</Text>
         </Circle>
       )}
       {seconds <= 0 && <Text style={styles.count2}>start</Text>}
-    </BlurView>
+    </View>
   );
 };
 
