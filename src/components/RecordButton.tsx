@@ -18,7 +18,7 @@ import { Storage } from "aws-amplify";
 import { Auth } from "aws-amplify";
 import { DataStore } from "aws-amplify";
 import { UserTask, Task } from "../models";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
 function RecordButton({
   userTaskId,
@@ -27,7 +27,6 @@ function RecordButton({
   userTaskId: string;
   resultId: string;
 }) {
-  const linkProps = useLink({ href: "/" });
   const [recording, setRecording] = React.useState<Audio.Recording>();
   const [showCountDown, setShowCountDown] = useState(false);
 
@@ -119,7 +118,9 @@ function RecordButton({
           elevation="$4"
         />
         <Text>
-          {recording ? "Zatrzymaj nagrywanie" : "Rozpocznij nagrywanie"}
+          {recording
+            ? "Zatrzymaj nagrywanie audio"
+            : "Rozpocznij nagrywanie audio"}
         </Text>
       </Button>
     </YStack>

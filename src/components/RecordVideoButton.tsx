@@ -77,7 +77,7 @@ const RecordVideoButton = ({
   };
 
   return (
-    <View>
+    <YStack f={1} jc="center" ai="center" space>
       <Camera ref={cameraRef}>
         <Button
           onPress={handleRecord}
@@ -91,11 +91,13 @@ const RecordVideoButton = ({
             elevation="$4"
           />
           <Text>
-            {isRecording ? "Zatrzymaj nagrywanie" : "Rozpocznij nagrywanie"}
+            {isRecording
+              ? "Zatrzymaj nagrywanie video"
+              : "Rozpocznij nagrywanie video"}
           </Text>
         </Button>
       </Camera>
-    </View>
+    </YStack>
   );
 };
 export default RecordVideoButton;

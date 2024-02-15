@@ -128,88 +128,90 @@ function SheetInfo({
         <Sheet.Overlay />
 
         <Sheet.Frame ai="center">
-          <Sheet.Handle />
+          <ScrollView>
+            <Sheet.Handle />
 
-          <H2 ta="center" px="$2" fontFamily={"$silkscreen"}>
-            Zbadaj Wariant
-          </H2>
-          <Text px="$4">
-            Prosimy o dokładne zbadanie przedstawionego wariantu. Upewnij się,
-            że zrozumiałeś lub zobaczyłeś wszystkie szczegóły. Teraz jest czas
-            na Twoją uwagę i dokładność.
-          </Text>
+            <H2 ta="center" px="$2" fontFamily={"$silkscreen"}>
+              Zbadaj Wariant
+            </H2>
+            <Text px="$4">
+              Prosimy o dokładne zbadanie przedstawionego wariantu. Upewnij się,
+              że zrozumiałeś lub zobaczyłeś wszystkie szczegóły. Teraz jest czas
+              na Twoją uwagę i dokładność.
+            </Text>
 
-          <YStack mt="$4">
-            <OptionComponent option={option} />
-          </YStack>
-          {step === 1 && (
             <YStack mt="$4">
-              <StepHeader
-                num="1"
-                title="Ocena Wariantu"
-                description="Proszę ocenić go na pięciopunktowej skali gwiazdkowej, gdzie 1 oznacza bardzo negatywną ocenę, a 5 oznacza bardzo pozytywną ocenę. Możesz również używać połówek gwiazdek, jeśli uważasz, że ocena jest bardziej precyzyjna."
-              />
-
-              <XStack mt="$6">
-                <StarRating rating={rating} onChange={changeRating} />
-              </XStack>
+              <OptionComponent option={option} />
             </YStack>
-          )}
-
-          {step === 2 && (
-            <YStack mt="$4">
-              <StepHeader
-                num="2"
-                title="Nagranie Motywacji"
-                description="Chcielibyśmy teraz poznać Twoje powody oceny wariantu. Proszę nagrać krótką wypowiedź (maksymalnie 10 sekund), w której opiszesz, dlaczego przyznałeś określoną ocenę. Twoja opinia jest dla nas bardzo ważna, więc bądź jak najbardziej szczery i wyraźny."
-              />
-              <XStack mt="$2">
-                <RecordButton
-                  userTaskId={userTaskId}
-                  resultId={option.result}
+            {step === 1 && (
+              <YStack mt="$4">
+                <StepHeader
+                  num="1"
+                  title="Ocena Wariantu"
+                  description="Proszę ocenić go na pięciopunktowej skali gwiazdkowej, gdzie 1 oznacza bardzo negatywną ocenę, a 5 oznacza bardzo pozytywną ocenę. Możesz również używać połówek gwiazdek, jeśli uważasz, że ocena jest bardziej precyzyjna."
                 />
-              </XStack>
 
-              <XStack mt="$2">
-                <RecordVideoButton
-                  userTaskId={userTaskId}
-                  resultId={option.result}
+                <XStack mt="$6">
+                  <StarRating rating={rating} onChange={changeRating} />
+                </XStack>
+              </YStack>
+            )}
+
+            {step === 2 && (
+              <YStack mt="$4">
+                <StepHeader
+                  num="2"
+                  title="Nagranie Motywacji"
+                  description="Chcielibyśmy teraz poznać Twoje powody oceny wariantu. Proszę nagrać krótką wypowiedź (maksymalnie 10 sekund), w której opiszesz, dlaczego przyznałeś określoną ocenę. Twoja opinia jest dla nas bardzo ważna, więc bądź jak najbardziej szczery i wyraźny."
                 />
-              </XStack>
-            </YStack>
-          )}
-          {step === 3 && (
-            <>
-              <StepHeader
-                num="3"
-                title="Kolejny Wariant"
-                description="Dziękujemy za Twoją opinię na temat tego wariantu. Teraz możesz przejść do oceny kolejnego wariantu, klikając przycisk Dalej. Twoja opinia pomoże nam lepiej zrozumieć Twoje preferencje i potrzeby konsumenckie."
-              />
-            </>
-          )}
-          <XStack mt="$6">
-            <Button
-              onPress={() => changeStep(-1)}
-              disabled={backDisabled}
-              icon={ChevronsLeft}
-            >
-              Wróć
-            </Button>
-            <Button ml="$2" onPress={() => setOpen(false)}>
-              Zamknij
-            </Button>
+                <XStack mt="$2">
+                  <RecordButton
+                    userTaskId={userTaskId}
+                    resultId={option.result}
+                  />
+                </XStack>
 
-            <Button
-              ml="$8"
-              size="$6"
-              onPress={() => changeStep(1)}
-              // disabled={nextDisabled}
-              themeInverse
-              iconAfter={ChevronsRight}
-            >
-              Dalej
-            </Button>
-          </XStack>
+                <XStack mt="$2">
+                  <RecordVideoButton
+                    userTaskId={userTaskId}
+                    resultId={option.result}
+                  />
+                </XStack>
+              </YStack>
+            )}
+            {step === 3 && (
+              <>
+                <StepHeader
+                  num="3"
+                  title="Kolejny Wariant"
+                  description="Dziękujemy za Twoją opinię na temat tego wariantu. Teraz możesz przejść do oceny kolejnego wariantu, klikając przycisk Dalej. Twoja opinia pomoże nam lepiej zrozumieć Twoje preferencje i potrzeby konsumenckie."
+                />
+              </>
+            )}
+            <XStack mt="$6">
+              <Button
+                onPress={() => changeStep(-1)}
+                disabled={backDisabled}
+                icon={ChevronsLeft}
+              >
+                Wróć
+              </Button>
+              <Button ml="$2" onPress={() => setOpen(false)}>
+                Zamknij
+              </Button>
+
+              <Button
+                ml="$8"
+                size="$6"
+                onPress={() => changeStep(1)}
+                // disabled={nextDisabled}
+                themeInverse
+                iconAfter={ChevronsRight}
+              >
+                Dalej
+              </Button>
+            </XStack>
+          </ScrollView>
         </Sheet.Frame>
       </Sheet>
     </ScrollView>

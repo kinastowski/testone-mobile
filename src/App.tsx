@@ -43,9 +43,9 @@ LogBox.ignoreLogs([
 ]);
 
 import {
-  User as ProfileIcon,
-  CheckCircle as HomeIcon,
-  Settings as MyIcon,
+  UserSquare2 as ProfileIcon,
+  CopyPlus as HomeIcon,
+  CopyCheck as MyIcon,
 } from "@tamagui/lucide-icons";
 
 import "@azure/core-asynciterator-polyfill";
@@ -88,20 +88,26 @@ function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
-        tabBarStyle: [
-          {
-            display: "flex",
-          },
-          null,
-        ],
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "rgba(255, 255, 255, 0.5);",
+        //Tab bar styles can be added here
+        tabBarStyle: {
+          paddingVertical: 5,
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+          backgroundColor: "rgb(0, 53, 158)",
+          position: "absolute",
+          display: "flex",
+          height: 60,
+        },
+        tabBarLabelStyle: { paddingBottom: 3 },
+
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Testy") {
+          if (route.name === "Oczekujące") {
             return <HomeIcon size={size} color={color} />;
-          } else if (route.name === "Moje") {
+          } else if (route.name === "Zrealizowane") {
             return <MyIcon size={size} color={color} />;
           } else if (route.name === "Profil") {
             // You can return any component that you like here!
@@ -111,12 +117,12 @@ function TabNavigator() {
       })}
     >
       <Tab.Screen
-        name="Testy"
+        name="Oczekujące"
         component={HomeScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="Moje"
+        name="Zrealizowane"
         component={MyScreen}
         options={{ headerShown: false }}
       />

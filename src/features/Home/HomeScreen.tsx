@@ -121,7 +121,7 @@ export function HomeScreen() {
         animation="bouncy"
         size="$4"
         width="100%"
-        height={180}
+        height={160}
         scale={0.9}
         hoverStyle={{ scale: 0.925 }}
         pressStyle={{ scale: 0.875 }}
@@ -138,9 +138,9 @@ export function HomeScreen() {
           </Text>
           <Button
             borderRadius="$8"
-            size="$10"
+            size="$8"
             fontFamily={"$silkscreen"}
-            mx="$4"
+            mx="$6"
             my="$2"
             icon={<Coins size="$4" />}
             onPress={async () => {
@@ -162,7 +162,7 @@ export function HomeScreen() {
         <Card.Background borderRadius="$4"></Card.Background>
       </StyledCard>
       <Text px="$4" fontFamily={"$silkscreen"}>
-        Nowe zadania
+        Oczekujące zadania
       </Text>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={0.5} ai="center" p="$6">
@@ -256,30 +256,33 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
               }}
             />
           )}
+
           <Image
             src={"tr:w-460,h-220/" + item.image}
             width={460}
             height={220}
           />
-          <Sheet.Handle />
-
-          <H2 ta="center" p="$4" fontFamily={"$silkscreen"}>
-            {item.title}
-          </H2>
-          <XStack px="$6" mb="$8">
-            <Paragraph ta="justify">{item.description}</Paragraph>
-          </XStack>
-
-          <XStack>
+          <ScrollView>
             <Button
               onPress={() => setShowCountDown(true)}
               alignSelf="center"
               icon={Activity}
               size="$6"
+              mt="$4"
+              theme="active"
             >
               Rozpocznij test
             </Button>
-          </XStack>
+
+            <Sheet.Handle />
+
+            <H2 ta="center" p="$4" fontFamily={"$silkscreen"}>
+              {item.title}
+            </H2>
+            <XStack px="$6" mb="$8">
+              <Paragraph ta="justify">{item.description}</Paragraph>
+            </XStack>
+          </ScrollView>
         </Sheet.Frame>
       </Sheet>
     </>
