@@ -37,7 +37,7 @@ import { Button } from "tamagui";
 import { LogBox } from "react-native";
 import { I18n } from "aws-amplify";
 import { translations } from "@aws-amplify/ui";
-
+import { AuthModeStrategyType } from "aws-amplify";
 LogBox.ignoreLogs([
   `Constants.platform.ios.model has been deprecated in favor of expo-device's Device.modelName property. This API will be removed in SDK 45.`,
 ]);
@@ -52,7 +52,12 @@ import "@azure/core-asynciterator-polyfill";
 
 import awsExports from "./aws-exports";
 
-Amplify.configure(awsExports);
+Amplify.configure({
+  ...awsExports,
+  DataStore: {
+    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
+  },
+});
 
 const MainStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -98,14 +103,14 @@ function TabNavigator() {
           backgroundColor: "rgb(0, 53, 158)",
           position: "absolute",
           display: "flex",
-          height: 60,
+          height: "11%",
         },
         tabBarLabelStyle: { paddingBottom: 3 },
 
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Oczekujące") {
+          if (route.name === "Nowe") {
             return <HomeIcon size={size} color={color} />;
           } else if (route.name === "Zrealizowane") {
             return <MyIcon size={size} color={color} />;
@@ -117,7 +122,7 @@ function TabNavigator() {
       })}
     >
       <Tab.Screen
-        name="Oczekujące"
+        name="Nowe"
         component={HomeScreen}
         options={{ headerShown: false }}
       />

@@ -81,8 +81,10 @@ export function HomeScreen() {
     const fetchTasks = async () => {
       const tasks = await DataStore.query(Task);
 
-      // const username = (await Auth.currentAuthenticatedUser()).username;
-      const userTasks = await DataStore.query(UserTask);
+      const user = await Auth.currentAuthenticatedUser();
+      const userTasks = await DataStore.query(UserTask, (c) =>
+        c.owner.eq(user.username)
+      );
 
       const userTaskTaskIds = userTasks.map((userTask) => userTask.taskId);
 
@@ -90,18 +92,11 @@ export function HomeScreen() {
         (task) => !userTaskTaskIds.includes(task.id)
       );
 
-      // // Filter Tasks whose id is present in userTaskTaskIds
-      // const filteredTasks = tasks.filter((task) =>
-      //   userTaskTaskIds.includes(task.id)
-      // );
-
       setTasks(otherTasks);
-      const c = (await Auth.currentAuthenticatedUser()).attributes[
-        "custom:coins"
-      ];
+      const c = user.attributes["custom:coins"];
       setCoins(c);
     };
-
+    // DataStore.clear();
     fetchTasks();
   });
 
@@ -162,7 +157,7 @@ export function HomeScreen() {
         <Card.Background borderRadius="$4"></Card.Background>
       </StyledCard>
       <Text px="$4" fontFamily={"$silkscreen"}>
-        Oczekujące zadania
+        Nowe zadania
       </Text>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={0.5} ai="center" p="$6">
@@ -221,10 +216,12 @@ function SheetInfo({ item, open, setOpen }: SheetInfoProps) {
     setShowCountDown(!showCountDown);
     setOpen(false);
 
+    const user = await Auth.currentAuthenticatedUser();
+    console.log("user", user);
     const res = await DataStore.save(
       new UserTask({
         taskId: item.id,
-        // owner: `${owner}::${owner}`,
+        owner: user.username,
       })
     );
 

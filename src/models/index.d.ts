@@ -23,6 +23,8 @@ type EagerDraftTask = {
   readonly reward?: number | null;
   readonly other?: string | null;
   readonly max?: number | null;
+  readonly end?: string | null;
+  readonly template?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -44,6 +46,8 @@ type LazyDraftTask = {
   readonly reward?: number | null;
   readonly other?: string | null;
   readonly max?: number | null;
+  readonly end?: string | null;
+  readonly template?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -70,7 +74,11 @@ type EagerTask = {
   readonly owner?: string | null;
   readonly reward?: number | null;
   readonly other?: string | null;
+  readonly max?: number | null;
   readonly end?: string | null;
+  readonly status?: string | null;
+  readonly start?: string | null;
+  readonly template?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -91,7 +99,11 @@ type LazyTask = {
   readonly owner?: string | null;
   readonly reward?: number | null;
   readonly other?: string | null;
+  readonly max?: number | null;
   readonly end?: string | null;
+  readonly status?: string | null;
+  readonly start?: string | null;
+  readonly template?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -100,6 +112,98 @@ export declare type Task = LazyLoading extends LazyLoadingDisabled ? EagerTask :
 
 export declare const Task: (new (init: ModelInit<Task>) => Task) & {
   copyOf(source: Task, mutator: (draft: MutableModel<Task>) => MutableModel<Task> | void): Task;
+}
+
+type EagerInvoices = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Invoices, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly description?: string | null;
+  readonly details?: string | null;
+  readonly number?: string | null;
+  readonly created?: string | null;
+  readonly end?: string | null;
+  readonly status?: string | null;
+  readonly ammount?: string | null;
+  readonly currency?: string | null;
+  readonly paymentDetails?: string | null;
+  readonly owner?: string | null;
+  readonly other?: string | null;
+  readonly note?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyInvoices = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Invoices, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly description?: string | null;
+  readonly details?: string | null;
+  readonly number?: string | null;
+  readonly created?: string | null;
+  readonly end?: string | null;
+  readonly status?: string | null;
+  readonly ammount?: string | null;
+  readonly currency?: string | null;
+  readonly paymentDetails?: string | null;
+  readonly owner?: string | null;
+  readonly other?: string | null;
+  readonly note?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Invoices = LazyLoading extends LazyLoadingDisabled ? EagerInvoices : LazyInvoices
+
+export declare const Invoices: (new (init: ModelInit<Invoices>) => Invoices) & {
+  copyOf(source: Invoices, mutator: (draft: MutableModel<Invoices>) => MutableModel<Invoices> | void): Invoices;
+}
+
+type EagerReport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Report, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly taskId?: string | null;
+  readonly settings?: string | null;
+  readonly type?: string | null;
+  readonly template?: string | null;
+  readonly status?: string | null;
+  readonly owner?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyReport = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Report, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly title?: string | null;
+  readonly taskId?: string | null;
+  readonly settings?: string | null;
+  readonly type?: string | null;
+  readonly template?: string | null;
+  readonly status?: string | null;
+  readonly owner?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Report = LazyLoading extends LazyLoadingDisabled ? EagerReport : LazyReport
+
+export declare const Report: (new (init: ModelInit<Report>) => Report) & {
+  copyOf(source: Report, mutator: (draft: MutableModel<Report>) => MutableModel<Report> | void): Report;
 }
 
 type EagerUserTask = {
@@ -113,6 +217,7 @@ type EagerUserTask = {
   readonly comment?: string | null;
   readonly taskId?: string | null;
   readonly rec?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -128,6 +233,7 @@ type LazyUserTask = {
   readonly comment?: string | null;
   readonly taskId?: string | null;
   readonly rec?: string | null;
+  readonly owner?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

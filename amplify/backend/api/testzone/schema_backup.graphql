@@ -1,0 +1,122 @@
+type DraftTask
+  @model(
+    queries: { list: "listDraftTasks", get: "getDraftTask" }
+    mutations: {
+      create: "createDraftTask"
+      update: "updateDraftTask"
+      delete: "deleteDraftTask"
+    }
+  )
+  @auth(
+    rules: [
+      { allow: public, provider: apiKey, operations: [read] }
+      { allow: groups, operations: [read], groups: ["testers"] }
+      { allow: groups, operations: [read], groups: ["managers"] }
+      { allow: groups, operations: [update, read, delete], groups: ["admins"] }
+      { allow: owner, operations: [update, read, delete] }
+      { allow: custom }
+    ]
+  ) {
+  id: ID!
+  title: String
+  description: String
+  details: AWSJSON
+  image: String
+  constraints: AWSJSON
+  stats: AWSJSON
+  type: Int
+  owner: String
+  reward: Int
+  other: AWSJSON
+  max: Int
+  end: AWSDateTime
+  template: Int
+}
+
+type Task
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: apiKey, operations: [read] }
+      { allow: groups, operations: [read], groups: ["testers"] }
+      { allow: groups, operations: [read], groups: ["managers"] }
+      { allow: groups, operations: [update, read, delete], groups: ["admins"] }
+      { allow: owner, operations: [update, read, delete] }
+      { allow: custom }
+    ]
+  ) {
+  id: ID!
+  title: String
+  description: String
+  details: AWSJSON
+  image: String
+  constraints: AWSJSON
+  stats: AWSJSON
+  type: Int
+  owner: String
+  reward: Int
+  other: AWSJSON
+  max: Int
+  end: AWSDateTime
+  status: String
+  start: AWSDateTime
+  template: Int
+}
+
+type Invoices @model  rules: [
+      { allow: public, provider: apiKey, operations: [read] }
+      { allow: groups, operations: [read], groups: ["managers"] }
+      { allow: groups, operations: [update, read, delete], groups: ["admins"] }
+      { allow: owner, operations: [update, read, delete] }
+      { allow: custom }
+    ] {
+  id: ID!
+  title: String
+  description: String
+  details: AWSJSON
+  number: String
+  created: AWSDateTime
+  end: AWSDateTime
+  status: String
+  ammount: String
+  currency: String
+  paymentDetails: AWSJSON
+  owner: String
+  other: AWSJSON
+  note: String
+}
+
+type UserTask
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: apiKey, operations: [read] }
+      { allow: groups, operations: [read], groups: ["managers"] }
+      { allow: owner, operations: [update, read, delete] }
+      { allow: groups, operations: [update, read, delete], groups: ["admins"] }
+      { allow: custom }
+    ]
+  ) {
+  id: ID!
+  result: AWSJSON
+  stats: AWSJSON
+  comment: String
+  taskId: String
+  rec: String
+}
+
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: apiKey, operations: [read] }
+      { allow: owner, operations: [update, read, delete] }
+      { allow: groups, operations: [update, read, delete], groups: ["admins"] }
+      { allow: custom }
+    ]
+  ) {
+  id: ID!
+  profile: AWSJSON
+  tasks: AWSJSON
+  userTasks: AWSJSON
+}

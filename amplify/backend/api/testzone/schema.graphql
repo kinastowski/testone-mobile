@@ -11,6 +11,8 @@ type DraftTask @model @auth(rules: [{ allow: private }]) {
   reward: Int
   other: AWSJSON
   max: Int
+  end: AWSDateTime
+  template: Int
 }
 
 type Task @model @auth(rules: [{ allow: private }]) {
@@ -25,7 +27,39 @@ type Task @model @auth(rules: [{ allow: private }]) {
   owner: String
   reward: Int
   other: AWSJSON
+  max: Int
   end: AWSDateTime
+  status: String
+  start: AWSDateTime
+  template: Int
+}
+
+type Invoices @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  title: String
+  description: String
+  details: AWSJSON
+  number: String
+  created: AWSDateTime
+  end: AWSDateTime
+  status: String
+  ammount: String
+  currency: String
+  paymentDetails: AWSJSON
+  owner: String
+  other: AWSJSON
+  note: String
+}
+
+type Report @model @auth(rules: [{ allow: private }]) {
+  id: ID!
+  title: String
+  taskId: String
+  settings: AWSJSON
+  type: String
+  template: String
+  status: String
+  owner: String
 }
 
 type UserTask
@@ -43,6 +77,7 @@ type UserTask
   comment: String
   taskId: String
   rec: String
+  owner: String
 }
 
 type User @model @auth(rules: [{ allow: private }, { allow: owner }]) {
@@ -56,4 +91,15 @@ type Query {
   getCompany(id: String): AWSJSON
     @function(name: "testzone-staging-getCompanyPy")
     @aws_api_key
+  getData(id: String): AWSJSON
+    @function(name: "testzone-staging-getData")
+    @aws_api_key
+  generateReport(id: String): AWSJSON
+    @function(name: "testzone-staging-generateReport")
+    @aws_api_key
+    @aws_cognito_user_pools
+  downloadReport(id: String): String
+    @function(name: "testzone-staging-downloadReport")
+    @aws_api_key
+    @aws_cognito_user_pools
 }

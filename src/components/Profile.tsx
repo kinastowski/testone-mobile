@@ -132,6 +132,18 @@ const Profile: React.FC<ProfileProps> = ({ profileId }) => {
 
   return (
     <ScrollView p="$6" contentContainerStyle={{ flexGrow: 1 }}>
+      <XStack py="$6" alignSelf="center">
+        <Button onPress={saveProfile} theme="active" size="$4" mr="$4">
+          Zapisz
+        </Button>
+        <Button
+          onPress={() => {
+            Auth.signOut();
+          }}
+        >
+          Wyloguj
+        </Button>
+      </XStack>
       <XStack>
         <Label width={60} htmlFor="name">
           Wiek: {profile && profile.age}
