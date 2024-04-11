@@ -99,6 +99,10 @@ export function MyScreen() {
     fetchTasks();
   });
 
+  // const subscription = DataStore.observe(Task).subscribe((msg) => {
+  //   console.log("subscription", msg);
+  // });
+
   return (
     <SafeAreaView
       style={{
@@ -151,7 +155,7 @@ export function MyScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={0.5} ai="center" p="$6">
           {tasks &&
-            tasks.map((item, idx) => (
+            tasks.reverse().map((item, idx) => (
               <StyledCard
                 elevate
                 size="$1"

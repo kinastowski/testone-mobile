@@ -310,24 +310,31 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "title": {
-                    "name": "title",
+                "currency": {
+                    "name": "currency",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "description": {
-                    "name": "description",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "details": {
-                    "name": "details",
+                "testDetails": {
+                    "name": "testDetails",
                     "isArray": false,
                     "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dueDate": {
+                    "name": "dueDate",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "issueDate": {
+                    "name": "issueDate",
+                    "isArray": false,
+                    "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -338,45 +345,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "created": {
-                    "name": "created",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "end": {
-                    "name": "end",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "status": {
                     "name": "status",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "ammount": {
-                    "name": "ammount",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "currency": {
-                    "name": "currency",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "paymentDetails": {
-                    "name": "paymentDetails",
-                    "isArray": false,
-                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -387,17 +359,31 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "other": {
-                    "name": "other",
+                "totalAmount": {
+                    "name": "totalAmount",
                     "isArray": false,
-                    "type": "AWSJSON",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
-                "note": {
-                    "name": "note",
+                "subTotalAmount": {
+                    "name": "subTotalAmount",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "taxAmount": {
+                    "name": "taxAmount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "paymentData": {
+                    "name": "paymentData",
+                    "isArray": false,
+                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -433,9 +419,16 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "create",
-                                    "update",
-                                    "delete",
-                                    "read"
+                                    "read",
+                                    "update"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "read",
+                                    "update"
                                 ]
                             }
                         ]
@@ -631,18 +624,6 @@ export const schema = {
                                 ]
                             },
                             {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
                                 "allow": "public",
                                 "operations": [
                                     "update",
@@ -722,18 +703,6 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
-                            },
-                            {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
                             }
                         ]
                     }
@@ -744,5 +713,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "e7b7f12d4c57c6e4b5f52ffe41133176"
+    "version": "82c81d30979a76f33bde0c9f3fc6c95c"
 };

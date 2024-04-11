@@ -24,7 +24,7 @@ import { useRouter } from "solito/router";
 import Image from "../../components/Image";
 import { Activity } from "@tamagui/lucide-icons";
 import { DataStore } from "aws-amplify";
-import { UserTask, Task } from "../../models";
+import { UserTask, Task, User } from "../../models";
 // import {sortBy} from "lodash";
 import CountdownComponent from "../../components/Countdown";
 import { useTaskContext } from "../../context/TaskContext";
@@ -76,27 +76,74 @@ export function HomeScreen() {
     setActive(item);
     setOpen(true);
   };
+  const fetchTasks = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+
+    const profile = await DataStore.query(User, user.attributes.profile);
+
+    let tasks = await DataStore.query(Task);
+
+    tasks = tasks.filter((task) => {
+      if (task.constraints) {
+        if (
+          task.constraints.gender &&
+          task.constraints.gender !== profile?.profile.gender
+        )
+          return false;
+        if (
+          task.constraints.education &&
+          task.constraints.education !== "all" &&
+          task.constraints.education !== profile?.profile.education
+        )
+          return false;
+        if (
+          task.constraints.income &&
+          task.constraints.income !== profile?.profile.income
+        )
+          return false;
+        if (
+          task.constraints.cityPopulation &&
+          task.constraints.cityPopulation !== profile?.profile.cityPopulation
+        )
+          return false;
+        if (
+          task.constraints.householdCount &&
+          task.constraints.householdCount !== profile?.profile.householdCount
+        )
+          return false;
+        if (task.constraints.age) {
+          if (
+            profile?.profile.age < task.constraints.ageMin ||
+            profile?.profile.age > task.constraints.ageMax
+          )
+            return false;
+        }
+      }
+
+      return true;
+    });
+
+    const userTasks = await DataStore.query(UserTask, (c) =>
+      c.owner.eq(user.username)
+    );
+
+    const userTaskTaskIds = userTasks.map((userTask) => userTask.taskId);
+
+    const otherTasks = tasks.filter(
+      (task) => !userTaskTaskIds.includes(task.id)
+    );
+
+    setTasks(otherTasks);
+    const c = user.attributes["custom:coins"];
+    setCoins(c);
+  };
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const tasks = await DataStore.query(Task);
+    fetchTasks();
+  }, []);
 
-      const user = await Auth.currentAuthenticatedUser();
-      const userTasks = await DataStore.query(UserTask, (c) =>
-        c.owner.eq(user.username)
-      );
-
-      const userTaskTaskIds = userTasks.map((userTask) => userTask.taskId);
-
-      const otherTasks = tasks.filter(
-        (task) => !userTaskTaskIds.includes(task.id)
-      );
-
-      setTasks(otherTasks);
-      const c = user.attributes["custom:coins"];
-      setCoins(c);
-    };
-    // DataStore.clear();
+  const subscription = DataStore.observe(Task).subscribe((msg) => {
+    console.log("subscription", msg);
     fetchTasks();
   });
 
@@ -162,7 +209,7 @@ export function HomeScreen() {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <YStack f={0.5} ai="center" p="$6">
           {tasks &&
-            tasks.map((item, idx) => (
+            tasks.reverse().map((item, idx) => (
               <StyledCard
                 elevate
                 size="$1"

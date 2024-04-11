@@ -34,21 +34,26 @@ type Task @model @auth(rules: [{ allow: private }]) {
   template: Int
 }
 
-type Invoices @model @auth(rules: [{ allow: private }]) {
+type Invoices
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read, update] }
+      { allow: public, operations: [create, read, update] }
+    ]
+  ) {
   id: ID!
-  title: String
-  description: String
-  details: AWSJSON
-  number: String
-  created: AWSDateTime
-  end: AWSDateTime
-  status: String
-  ammount: String
   currency: String
-  paymentDetails: AWSJSON
+  testDetails: AWSJSON
+  dueDate: AWSDateTime
+  issueDate: AWSDateTime
+  number: String
+  status: String
   owner: String
-  other: AWSJSON
-  note: String
+  totalAmount: Float
+  subTotalAmount: Float
+  taxAmount: Float
+  paymentData: AWSJSON
 }
 
 type Report @model @auth(rules: [{ allow: private }]) {
@@ -67,7 +72,6 @@ type UserTask
   @auth(
     rules: [
       { allow: private, operations: [create] }
-      { allow: owner }
       { allow: public, operations: [update, delete, read] }
     ]
   ) {
@@ -80,7 +84,7 @@ type UserTask
   owner: String
 }
 
-type User @model @auth(rules: [{ allow: private }, { allow: owner }]) {
+type User @model @auth(rules: [{ allow: private }]) {
   id: ID!
   profile: AWSJSON
   tasks: AWSJSON
@@ -100,6 +104,11 @@ type Query {
     @aws_cognito_user_pools
   downloadReport(id: String): String
     @function(name: "testzone-staging-downloadReport")
+    @aws_api_key
+    @aws_cognito_user_pools
+  paymentInitTpay(invoiceId: String, amount: String): String
+    @function(name: "testzone-staging-paymentInitTpay")
+    @aws_lambda
     @aws_api_key
     @aws_cognito_user_pools
 }
