@@ -99,9 +99,17 @@ export function MyScreen() {
     fetchTasks();
   });
 
-  // const subscription = DataStore.observe(Task).subscribe((msg) => {
-  //   console.log("subscription", msg);
-  // });
+  const subscription1 = DataStore.observe(Task).subscribe((msg) => {
+    console.log("subscription1", msg);
+  });
+
+  const subscription2 = DataStore.observe(
+    UserTask,
+
+    (c) => c.owner.eq(user.username)
+  ).subscribe((msg) => {
+    console.log("subscription2", msg);
+  });
 
   return (
     <SafeAreaView
@@ -115,7 +123,7 @@ export function MyScreen() {
         animation="bouncy"
         size="$4"
         width="100%"
-        height={180}
+        height={160}
         scale={0.9}
         hoverStyle={{ scale: 0.925 }}
         pressStyle={{ scale: 0.875 }}
@@ -132,11 +140,17 @@ export function MyScreen() {
           </Text>
           <Button
             borderRadius="$8"
-            size="$10"
+            size="$8"
             fontFamily={"$silkscreen"}
-            mx="$4"
+            mx="$6"
             my="$2"
             icon={<Coins size="$4" />}
+            onPress={async () => {
+              try {
+                await DataStore.clear();
+                await DataStore.start();
+              } catch (err) {}
+            }}
           >
             {coins}
           </Button>

@@ -18,6 +18,7 @@ export const onCreateDraftTask = /* GraphQL */ `
       reward
       other
       max
+      spent
       end
       template
       createdAt
@@ -46,6 +47,7 @@ export const onUpdateDraftTask = /* GraphQL */ `
       reward
       other
       max
+      spent
       end
       template
       createdAt
@@ -74,6 +76,7 @@ export const onDeleteDraftTask = /* GraphQL */ `
       reward
       other
       max
+      spent
       end
       template
       createdAt
@@ -101,6 +104,7 @@ export const onCreateTask = /* GraphQL */ `
       other
       max
       end
+      spent
       status
       start
       template
@@ -129,6 +133,7 @@ export const onUpdateTask = /* GraphQL */ `
       other
       max
       end
+      spent
       status
       start
       template
@@ -157,6 +162,7 @@ export const onDeleteTask = /* GraphQL */ `
       other
       max
       end
+      spent
       status
       start
       template
@@ -311,6 +317,7 @@ export const onCreateUserTask = /* GraphQL */ `
       taskId
       rec
       owner
+      status
       createdAt
       updatedAt
       _version
@@ -330,6 +337,7 @@ export const onUpdateUserTask = /* GraphQL */ `
       taskId
       rec
       owner
+      status
       createdAt
       updatedAt
       _version
@@ -349,6 +357,7 @@ export const onDeleteUserTask = /* GraphQL */ `
       taskId
       rec
       owner
+      status
       createdAt
       updatedAt
       _version

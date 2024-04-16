@@ -87,6 +87,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "spent": {
+                    "name": "spent",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "end": {
                     "name": "end",
                     "isArray": false,
@@ -133,9 +140,18 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "create",
+                                    "read",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "read",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -237,6 +253,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "spent": {
+                    "name": "spent",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "status": {
                     "name": "status",
                     "isArray": false,
@@ -290,9 +313,18 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "create",
+                                    "read",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "read",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -527,9 +559,18 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "create",
+                                    "read",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "read",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -584,6 +625,13 @@ export const schema = {
                 },
                 "owner": {
                     "name": "owner",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "status": {
+                    "name": "status",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -699,9 +747,18 @@ export const schema = {
                                 "allow": "private",
                                 "operations": [
                                     "create",
+                                    "read",
                                     "update",
-                                    "delete",
-                                    "read"
+                                    "delete"
+                                ]
+                            },
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "read",
+                                    "update",
+                                    "delete"
                                 ]
                             }
                         ]
@@ -713,5 +770,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "82c81d30979a76f33bde0c9f3fc6c95c"
+    "version": "81c20e813c1b42039389c2d526a09b13"
 };

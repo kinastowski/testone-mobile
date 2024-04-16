@@ -30,6 +30,7 @@ import CountdownComponent from "../../components/Countdown";
 import { useTaskContext } from "../../context/TaskContext";
 import { Auth } from "aws-amplify";
 import { Coins } from "@tamagui/lucide-icons";
+import { useAuthenticator } from "@aws-amplify/ui-react-native";
 
 interface Item {
   id: string;
@@ -69,6 +70,7 @@ export function HomeScreen() {
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
   const [coins, setCoins] = useState(false);
+  let { user } = useAuthenticator();
 
   const { push } = useRouter();
 
@@ -76,8 +78,23 @@ export function HomeScreen() {
     setActive(item);
     setOpen(true);
   };
+
+  const combineValues = (obj) => {
+    let result = [];
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key) && Array.isArray(obj[key])) {
+        result = result.concat(obj[key]);
+      }
+    }
+    return result;
+  };
+
+  const containsAll = (arr2, arr1) => {
+    return arr2.every((element) => arr1.includes(element));
+  };
+
   const fetchTasks = async () => {
-    const user = await Auth.currentAuthenticatedUser();
+    // user = await Auth.currentAuthenticatedUser();
 
     const profile = await DataStore.query(User, user.attributes.profile);
 
@@ -85,39 +102,12 @@ export function HomeScreen() {
 
     tasks = tasks.filter((task) => {
       if (task.constraints) {
-        if (
-          task.constraints.gender &&
-          task.constraints.gender !== profile?.profile.gender
-        )
-          return false;
-        if (
-          task.constraints.education &&
-          task.constraints.education !== "all" &&
-          task.constraints.education !== profile?.profile.education
-        )
-          return false;
-        if (
-          task.constraints.income &&
-          task.constraints.income !== profile?.profile.income
-        )
-          return false;
-        if (
-          task.constraints.cityPopulation &&
-          task.constraints.cityPopulation !== profile?.profile.cityPopulation
-        )
-          return false;
-        if (
-          task.constraints.householdCount &&
-          task.constraints.householdCount !== profile?.profile.householdCount
-        )
-          return false;
-        if (task.constraints.age) {
-          if (
-            profile?.profile.age < task.constraints.ageMin ||
-            profile?.profile.age > task.constraints.ageMax
-          )
-            return false;
-        }
+        const constraints = combineValues(task.constraints);
+        const profileValues = profile?.profile
+          ? Object.values(profile.profile)
+          : [];
+
+        return containsAll(profileValues, constraints);
       }
 
       return true;
@@ -145,6 +135,14 @@ export function HomeScreen() {
   const subscription = DataStore.observe(Task).subscribe((msg) => {
     console.log("subscription", msg);
     fetchTasks();
+  });
+
+  const subscription2 = DataStore.observe(
+    UserTask,
+
+    (c) => c.owner.eq(user.username)
+  ).subscribe((msg) => {
+    console.log("subscription2", msg);
   });
 
   const onPress = () => {

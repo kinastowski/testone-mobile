@@ -5,16 +5,13 @@ export function RadiItem(props: {
   value: string;
   label: string;
 }) {
-  const id = `radiogroup-${props.value}`;
   return (
     <XStack width={300} alignItems="center" space="$4">
-      <RadioGroup.Item value={props.value} id={id} size={props.size}>
+      <RadioGroup.Item value={props.value} size={props.size}>
         <RadioGroup.Indicator />
       </RadioGroup.Item>
 
-      <Label size={props.size} htmlFor={id}>
-        {props.label}
-      </Label>
+      <Label size={props.size}>{props.label}</Label>
     </XStack>
   );
 }

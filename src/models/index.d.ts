@@ -23,6 +23,7 @@ type EagerDraftTask = {
   readonly reward?: number | null;
   readonly other?: string | null;
   readonly max?: number | null;
+  readonly spent?: number | null;
   readonly end?: string | null;
   readonly template?: number | null;
   readonly createdAt?: string | null;
@@ -46,6 +47,7 @@ type LazyDraftTask = {
   readonly reward?: number | null;
   readonly other?: string | null;
   readonly max?: number | null;
+  readonly spent?: number | null;
   readonly end?: string | null;
   readonly template?: number | null;
   readonly createdAt?: string | null;
@@ -76,6 +78,7 @@ type EagerTask = {
   readonly other?: string | null;
   readonly max?: number | null;
   readonly end?: string | null;
+  readonly spent?: number | null;
   readonly status?: string | null;
   readonly start?: string | null;
   readonly template?: number | null;
@@ -101,6 +104,7 @@ type LazyTask = {
   readonly other?: string | null;
   readonly max?: number | null;
   readonly end?: string | null;
+  readonly spent?: number | null;
   readonly status?: string | null;
   readonly start?: string | null;
   readonly template?: number | null;
@@ -214,6 +218,7 @@ type EagerUserTask = {
   readonly taskId?: string | null;
   readonly rec?: string | null;
   readonly owner?: string | null;
+  readonly status?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -230,6 +235,7 @@ type LazyUserTask = {
   readonly taskId?: string | null;
   readonly rec?: string | null;
   readonly owner?: string | null;
+  readonly status?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
